@@ -1,0 +1,247 @@
+<div class="home-page">
+  <header class="navbar">
+    <div class="logo">TRENDIFY</div>
+
+    <nav>
+      <a routerLink="/home">Home</a>
+      <a routerLink="/men">Men</a>
+      <a routerLink="/women">Women</a>
+      <a routerLink="/accessories">Accessories</a>
+      <a routerLink="/contact">Contact</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button type="button" class="search-box">Search here</button>
+
+      <div class="nav-item-wrapper">
+        <button type="button" class="nav-icon" (click)="toggleCategories()">☰</button>
+
+        @if (isCategoriesOpen) {
+          <div class="dropdown-menu categories-menu">
+            <p class="dropdown-title">Categories</p>
+
+            <div class="dropdown-header">
+              <span>Categories</span>
+              <button type="button" (click)="toggleCategories()">⌃</button>
+            </div>
+
+            <a routerLink="/men">Men</a>
+            <a routerLink="/women">Women</a>
+            <a routerLink="/accessories">Accessories</a>
+          </div>
+        }
+      </div>
+
+      <button type="button" class="nav-icon" routerLink="/cart">🛒</button>
+
+      <div class="nav-item-wrapper">
+        <button type="button" class="nav-icon" (click)="toggleProfile()">👤</button>
+
+        @if (isProfileOpen) {
+          <div class="dropdown-menu profile-menu">
+            <p class="dropdown-title">Profile</p>
+
+            <div class="dropdown-header">
+              <span>LyanNahas</span>
+              <button type="button" (click)="toggleProfile()">⌃</button>
+            </div>
+
+            <a>Online Purchases</a>
+            <a>Country</a>
+            <a>Language</a>
+            <button type="button" class="logout-link" (click)="logout()">Log Out</button>
+          </div>
+        }
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Your Style<br>Our Signature</h1>
+      <button type="button">Shop Now</button>
+    </div>
+  </section>
+
+  <section class="benefits">
+    <div class="benefit">
+      <span>🚚</span>
+      <div>
+        <h4>Easy Shipping</h4>
+        <p>Delivery to your door</p>
+      </div>
+    </div>
+
+    <div class="benefit">
+      <span>💎</span>
+      <div>
+        <h4>Unique Style</h4>
+        <p>Pieces made to stand out</p>
+      </div>
+    </div>
+
+    <div class="benefit">
+      <span>↩</span>
+      <div>
+        <h4>Simple Return</h4>
+        <p>Easy return process</p>
+      </div>
+    </div>
+
+    <div class="benefit">
+      <span>💳</span>
+      <div>
+        <h4>Safe Payment</h4>
+        <p>Secure checkout</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="categories-section">
+    <h2>Shop By Category</h2>
+
+    <div class="category-row">
+      <article class="category-item" routerLink="/men">
+        <h3>Men's Wear</h3>
+        <span>♕</span>
+      </article>
+
+      <article class="category-item" routerLink="/women">
+        <h3>Women's Wear</h3>
+        <span>♙</span>
+      </article>
+
+      <article class="category-item" routerLink="/accessories">
+        <h3>Accessories</h3>
+        <span>◇</span>
+      </article>
+    </div>
+  </section>
+
+  <section class="products-section">
+    <div class="products-grid">
+      <article class="product-card">
+        <div class="product-img img-1"></div>
+        <h4>Men Shirt</h4>
+        <p>$45</p>
+      </article>
+
+      <article class="product-card">
+        <div class="product-img img-2"></div>
+        <h4>Classic Black</h4>
+        <p>$60</p>
+      </article>
+
+      <article class="product-card">
+        <div class="product-img img-3"></div>
+        <h4>Oversized Tee</h4>
+        <p>$35</p>
+      </article>
+
+      <article class="product-card">
+        <div class="product-img img-4"></div>
+        <h4>White Jacket</h4>
+        <p>$75</p>
+      </article>
+
+      <article class="product-card">
+        <div class="product-img img-5"></div>
+        <h4>Autumn Dress</h4>
+        <p>$55</p>
+      </article>
+
+      <article class="product-card">
+        <div class="product-img img-6"></div>
+        <h4>Red Blouse</h4>
+        <p>$42</p>
+      </article>
+
+      <article class="product-card">
+        <div class="product-img img-7"></div>
+        <h4>Printed Shirt</h4>
+        <p>$38</p>
+      </article>
+
+      <article class="product-card">
+        <div class="product-img img-8"></div>
+        <h4>Pink Trousers</h4>
+        <p>$48</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="sale-banner">
+    <h2>End of season sale</h2>
+    <p>Buy 2 get 1 free</p>
+    <button type="button">Shop Now</button>
+  </section>
+
+  <section class="top-sellers">
+    <h2>Top Sellers</h2>
+    <p>Shop our most-selling products</p>
+
+    <div class="products-grid small-grid">
+      <article class="product-card">
+        <div class="product-img img-1"></div>
+        <h4>Men Shirt</h4>
+        <p>$45</p>
+      </article>
+
+      <article class="product-card">
+        <div class="product-img img-6"></div>
+        <h4>Red Blouse</h4>
+        <p>$42</p>
+      </article>
+
+      <article class="product-card">
+        <div class="product-img img-7"></div>
+        <h4>Printed Shirt</h4>
+        <p>$38</p>
+      </article>
+
+      <article class="product-card">
+        <div class="product-img img-8"></div>
+        <h4>Pink Trousers</h4>
+        <p>$48</p>
+      </article>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-columns">
+      <div>
+        <h4>About Us</h4>
+        <p>About Trendify</p>
+        <p>Careers</p>
+        <p>Contact</p>
+      </div>
+
+      <div>
+        <h4>Shopping</h4>
+        <p>Delivery</p>
+        <p>Returns</p>
+        <p>Payment</p>
+      </div>
+
+      <div>
+        <h4>Useful Links</h4>
+        <p>Privacy Policy</p>
+        <p>Terms</p>
+        <p>Help</p>
+      </div>
+
+      <div>
+        <h4>Newsletter</h4>
+        <div class="newsletter">
+          <input type="email" placeholder="Your email">
+          <button type="button">→</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© TRENDIFY</span>
+      <span>Instagram · Facebook · TikTok</span>
+    </div>
+  </footer>
+</div>

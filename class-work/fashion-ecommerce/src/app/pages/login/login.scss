@@ -1,0 +1,179 @@
+.auth-page {
+  min-height: 100vh;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.88)),
+    url('https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1600&q=80');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: #111;
+}
+
+.brand-hero {
+  min-height: 58vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    margin: 0;
+    font-size: 76px;
+    letter-spacing: 8px;
+    font-weight: 700;
+  }
+
+  p {
+    margin-top: 14px;
+    font-size: 20px;
+    letter-spacing: 1px;
+    color: #333;
+    font-family: Arial, sans-serif;
+  }
+}
+
+.auth-section {
+  min-height: 55vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px 24px 80px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 460px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(6px);
+  padding: 42px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
+
+  h2 {
+    font-size: 38px;
+    margin: 0 0 10px;
+  }
+
+  .subtitle {
+    margin-bottom: 30px;
+    color: #555;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+
+  label {
+    margin-bottom: 8px;
+    font-size: 15px;
+  }
+
+  input {
+    height: 48px;
+    padding: 0 14px;
+    border: 1px solid #c7c7c7;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 15px;
+    outline: none;
+    font-family: Arial, sans-serif;
+
+    &:focus {
+      border-color: #111;
+    }
+  }
+
+  small {
+    margin-top: 6px;
+    color: #b00020;
+    font-size: 13px;
+    font-family: Arial, sans-serif;
+  }
+}
+
+.password-wrapper {
+  position: relative;
+
+  input {
+    width: 100%;
+    padding-right: 72px;
+  }
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: #111;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.error-message {
+  color: #b00020;
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+}
+
+.auth-button {
+  width: 100%;
+  height: 50px;
+  border: none;
+  background: #111;
+  color: white;
+  font-size: 15px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  &:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+  }
+}
+
+.switch-page {
+  margin-top: 22px;
+  text-align: center;
+  color: #555;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+
+  a {
+    color: #111;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .brand-hero {
+    min-height: 45vh;
+    padding: 0 20px;
+    text-align: center;
+
+    h1 {
+      font-size: 46px;
+      letter-spacing: 5px;
+    }
+
+    p {
+      font-size: 16px;
+    }
+  }
+
+  .auth-card {
+    padding: 30px 24px;
+  }
+}

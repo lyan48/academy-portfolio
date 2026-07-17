@@ -1,0 +1,59 @@
+<div class="auth-page">
+  <section class="brand-hero">
+    <h1>TRENDIFY</h1>
+    <p>Your style, our way.</p>
+  </section>
+
+  <section class="auth-section">
+    <form class="auth-card" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <h2>Login</h2>
+      <p class="subtitle">Welcome back. Enter your credentials to continue.</p>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" formControlName="email" placeholder="Enter your email">
+
+        @if (loginForm.get('email')?.touched && loginForm.get('email')?.hasError('required')) {
+          <small>Email is required.</small>
+        }
+
+        @if (loginForm.get('email')?.touched && loginForm.get('email')?.hasError('email')) {
+          <small>Please enter a valid email.</small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+
+        <div class="password-wrapper">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            placeholder="Enter your password"
+          >
+
+          <button type="button" class="toggle-password" (click)="showPassword = !showPassword">
+            {{ showPassword ? 'Hide' : 'Show' }}
+          </button>
+        </div>
+
+        @if (loginForm.get('password')?.touched && loginForm.get('password')?.hasError('required')) {
+          <small>Password is required.</small>
+        }
+      </div>
+
+      @if (errorMessage) {
+        <p class="error-message">{{ errorMessage }}</p>
+      }
+
+      <button class="auth-button" type="submit" [disabled]="loginForm.invalid || isLoading">
+        {{ isLoading ? 'Logging in...' : 'Login' }}
+      </button>
+
+      <p class="switch-page">
+        New to TRENDIFY?
+        <a routerLink="/register">Create an account</a>
+      </p>
+    </form>
+  </section>
+</div>
