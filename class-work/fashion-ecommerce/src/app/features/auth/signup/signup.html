@@ -1,0 +1,394 @@
+<main class="auth-page">
+  <div class="auth-overlay"></div>
+
+  <section class="auth-content">
+    <header class="brand">
+      <h1>TRENDIFY</h1>
+      <p>Your style, our way.</p>
+    </header>
+
+    <div class="auth-card">
+      <div class="auth-heading">
+        <p class="small-title">JOIN TRENDIFY</p>
+
+        <h2>Create your account</h2>
+
+        <p class="description">
+          Enter your information to start discovering
+          your new style.
+        </p>
+      </div>
+
+      <form
+        class="auth-form"
+        [formGroup]="signupForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">
+              First name
+            </label>
+
+            <input
+              id="firstName"
+              type="text"
+              formControlName="firstName"
+              placeholder="First name"
+              autocomplete="given-name"
+            />
+
+            @if (
+              firstNameControl?.invalid &&
+              (firstNameControl?.touched || submitted)
+            ) {
+              <p class="error-message">
+                @if (
+                  firstNameControl?.hasError('required')
+                ) {
+                  First name is required.
+                } @else {
+                  Enter at least 2 characters.
+                }
+              </p>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="lastName">
+              Last name
+            </label>
+
+            <input
+              id="lastName"
+              type="text"
+              formControlName="lastName"
+              placeholder="Last name"
+              autocomplete="family-name"
+            />
+
+            @if (
+              lastNameControl?.invalid &&
+              (lastNameControl?.touched || submitted)
+            ) {
+              <p class="error-message">
+                @if (
+                  lastNameControl?.hasError('required')
+                ) {
+                  Last name is required.
+                } @else {
+                  Enter at least 2 characters.
+                }
+              </p>
+            }
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="birthDate">
+              Date of birth
+            </label>
+
+            <input
+              id="birthDate"
+              type="date"
+              formControlName="birthDate"
+            />
+
+            @if (
+              birthDateControl?.invalid &&
+              (birthDateControl?.touched || submitted)
+            ) {
+              <p class="error-message">
+                Date of birth is required.
+              </p>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="gender">
+              Gender
+            </label>
+
+            <select
+              id="gender"
+              formControlName="gender"
+            >
+              <option value="" disabled>
+                Select gender
+              </option>
+
+              <option value="female">
+                Female
+              </option>
+
+              <option value="male">
+                Male
+              </option>
+
+              <option value="prefer-not-to-say">
+                Prefer not to say
+              </option>
+            </select>
+
+            @if (
+              genderControl?.invalid &&
+              (genderControl?.touched || submitted)
+            ) {
+              <p class="error-message">
+                Select a gender option.
+              </p>
+            }
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phoneNumber">
+              Phone number
+            </label>
+
+            <input
+              id="phoneNumber"
+              type="tel"
+              formControlName="phoneNumber"
+              placeholder="+961 00 000 000"
+              autocomplete="tel"
+            />
+
+            @if (
+              phoneNumberControl?.invalid &&
+              (phoneNumberControl?.touched || submitted)
+            ) {
+              <p class="error-message">
+                @if (
+                  phoneNumberControl?.hasError('required')
+                ) {
+                  Phone number is required.
+                } @else {
+                  Enter a valid phone number.
+                }
+              </p>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="country">
+              Country
+            </label>
+
+            <select
+              id="country"
+              formControlName="country"
+            >
+              <option value="" disabled>
+                Select country
+              </option>
+
+              <option value="Lebanon">
+                Lebanon
+              </option>
+
+              <option value="France">
+                France
+              </option>
+
+              <option value="Italy">
+                Italy
+              </option>
+
+              <option value="Greece">
+                Greece
+              </option>
+
+              <option value="United Arab Emirates">
+                United Arab Emirates
+              </option>
+
+              <option value="Other">
+                Other
+              </option>
+            </select>
+
+            @if (
+              countryControl?.invalid &&
+              (countryControl?.touched || submitted)
+            ) {
+              <p class="error-message">
+                Select your country.
+              </p>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">
+            Email address
+          </label>
+
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="Enter your email"
+            autocomplete="email"
+          />
+
+          @if (
+            emailControl?.invalid &&
+            (emailControl?.touched || submitted)
+          ) {
+            <p class="error-message">
+              @if (
+                emailControl?.hasError('required')
+              ) {
+                Email is required.
+              } @else {
+                Enter a valid email address.
+              }
+            </p>
+          }
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="password">
+              Password
+            </label>
+
+            <div class="password-input">
+              <input
+                id="password"
+                [type]="showPassword ? 'text' : 'password'"
+                formControlName="password"
+                placeholder="Create password"
+                autocomplete="new-password"
+              />
+
+              <button
+                class="password-button"
+                type="button"
+                (click)="togglePassword()"
+              >
+                {{ showPassword ? 'Hide' : 'Show' }}
+              </button>
+            </div>
+
+            @if (
+              passwordControl?.invalid &&
+              (passwordControl?.touched || submitted)
+            ) {
+              <p class="error-message">
+                @if (
+                  passwordControl?.hasError('required')
+                ) {
+                  Password is required.
+                } @else if (
+                  passwordControl?.hasError('minlength')
+                ) {
+                  Use at least 8 characters.
+                } @else {
+                  Include uppercase, lowercase and a number.
+                }
+              </p>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">
+              Confirm password
+            </label>
+
+            <div class="password-input">
+              <input
+                id="confirmPassword"
+                [type]="
+                  showConfirmPassword
+                    ? 'text'
+                    : 'password'
+                "
+                formControlName="confirmPassword"
+                placeholder="Repeat password"
+                autocomplete="new-password"
+              />
+
+              <button
+                class="password-button"
+                type="button"
+                (click)="toggleConfirmPassword()"
+              >
+                {{
+                  showConfirmPassword
+                    ? 'Hide'
+                    : 'Show'
+                }}
+              </button>
+            </div>
+
+            @if (
+              confirmPasswordControl?.hasError('required') &&
+              (
+                confirmPasswordControl?.touched ||
+                submitted
+              )
+            ) {
+              <p class="error-message">
+                Confirm your password.
+              </p>
+            }
+
+            @if (
+              signupForm.hasError('passwordsDoNotMatch') &&
+              confirmPasswordControl?.value &&
+              (
+                confirmPasswordControl?.touched ||
+                submitted
+              )
+            ) {
+              <p class="error-message">
+                Passwords do not match.
+              </p>
+            }
+          </div>
+        </div>
+
+        <label class="terms-option">
+          <input
+            type="checkbox"
+            formControlName="acceptTerms"
+          />
+
+          <span>
+            I agree to the Terms of Service and
+            Privacy Policy.
+          </span>
+        </label>
+
+        @if (
+          acceptTermsControl?.invalid &&
+          (acceptTermsControl?.touched || submitted)
+        ) {
+          <p class="error-message">
+            You must accept the terms.
+          </p>
+        }
+
+        <button
+          class="submit-button"
+          type="submit"
+        >
+          Create Account
+        </button>
+      </form>
+
+      <p class="change-page">
+        Already have an account?
+
+        <a routerLink="/login">
+          Sign in
+        </a>
+      </p>
+    </div>
+  </section>
+</main>

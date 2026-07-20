@@ -1,0 +1,109 @@
+<main class="auth-page">
+  <div class="auth-overlay"></div>
+
+  <section class="auth-content">
+    <header class="brand">
+      <h1>TRENDIFY</h1>
+      <p>Your style, our way.</p>
+    </header>
+
+    <div class="auth-card">
+      <div class="auth-heading">
+        <p class="small-title">WELCOME BACK</p>
+        <h2>Sign in to your account</h2>
+        <p class="description">
+          Enter your information to continue shopping.
+        </p>
+      </div>
+
+      <form
+        class="auth-form"
+        [formGroup]="loginForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <div class="form-group">
+          <label for="email">Email address</label>
+
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="Enter your email"
+            autocomplete="email"
+          />
+
+          @if (
+            emailControl?.invalid &&
+            (emailControl?.touched || submitted)
+          ) {
+            <p class="error-message">
+              @if (emailControl?.hasError('required')) {
+                Email is required.
+              } @else if (emailControl?.hasError('email')) {
+                Enter a valid email address.
+              }
+            </p>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+
+          <div class="password-input">
+            <input
+              id="password"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+            />
+
+            <button
+              class="password-button"
+              type="button"
+              (click)="togglePassword()"
+            >
+              {{ showPassword ? 'Hide' : 'Show' }}
+            </button>
+          </div>
+
+          @if (
+            passwordControl?.invalid &&
+            (passwordControl?.touched || submitted)
+          ) {
+            <p class="error-message">
+              @if (passwordControl?.hasError('required')) {
+                Password is required.
+              } @else if (passwordControl?.hasError('minlength')) {
+                Password must contain at least 6 characters.
+              }
+            </p>
+          }
+        </div>
+
+        <div class="form-options">
+          <label class="remember-option">
+            <input
+              type="checkbox"
+              formControlName="rememberMe"
+            />
+            <span>Remember me</span>
+          </label>
+
+          <button class="forgot-password" type="button">
+            Forgot password?
+          </button>
+        </div>
+
+        <button class="submit-button" type="submit">
+          Sign In
+        </button>
+      </form>
+
+      <p class="change-page">
+        Don’t have an account?
+        <a routerLink="/signup">Create an account</a>
+      </p>
+    </div>
+  </section>
+</main>
