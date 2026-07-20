@@ -1,0 +1,343 @@
+<div class="women-page">
+  <app-navbar
+    (searchChanged)="updateSearch($event)"
+    (logoutClicked)="logout()"
+  ></app-navbar>
+
+  <main>
+    <section class="women-hero">
+      <img
+        src="/images/women/hero.jpg"
+        alt="Women's fashion collection"
+      />
+
+      <div class="hero-overlay"></div>
+
+      <div class="hero-content">
+        <p>WOMEN’S COLLECTION</p>
+
+        <h1>Own your style</h1>
+
+        <span>
+          Discover modern essentials, timeless pieces and
+          statement looks selected for every moment.
+        </span>
+
+        <a href="#featured-products">
+          Explore Collection
+        </a>
+      </div>
+    </section>
+
+    <section class="subcategory-section">
+      <div class="subcategory-heading">
+        <p>SHOP WOMEN</p>
+
+        <h2>Explore the collection</h2>
+      </div>
+
+      <div class="subcategory-links">
+        <button
+          type="button"
+          [class.active]="selectedCategory === 'All'"
+          (click)="selectCategory('All')"
+        >
+          All
+        </button>
+
+        @for (
+          category of subcategories;
+          track category
+        ) {
+          <button
+            type="button"
+            [class.active]="selectedCategory === category"
+            (click)="selectCategory(category)"
+          >
+            {{ category }}
+          </button>
+        }
+      </div>
+    </section>
+
+    <section
+      id="featured-products"
+      class="products-section"
+    >
+      <div class="section-heading">
+        <div>
+          <p>FEATURED COLLECTION</p>
+
+          <h2>Women’s favorites</h2>
+        </div>
+
+        <span>
+          Modern pieces chosen for everyday style.
+        </span>
+      </div>
+
+      @if (featuredProducts.length > 0) {
+        <div class="products-grid">
+          @for (
+            product of featuredProducts;
+            track product.id
+          ) {
+            <article class="product-card">
+              <div class="product-image">
+                <img
+                  [src]="product.image"
+                  [alt]="product.name"
+                />
+
+                <button
+                  class="favorite-button"
+                  type="button"
+                  [class.active]="product.isFavorite"
+                  (click)="toggleFavorite(product)"
+                  aria-label="Add to favorites"
+                >
+                  {{
+                    product.isFavorite
+                      ? '♥'
+                      : '♡'
+                  }}
+                </button>
+
+                @if (product.oldPrice) {
+                  <span class="sale-label">
+                    Sale
+                  </span>
+                }
+              </div>
+
+              <div class="product-information">
+                <p>{{ product.category }}</p>
+
+                <h3>{{ product.name }}</h3>
+
+                <div class="price">
+                  <strong>
+                    ${{ product.price }}
+                  </strong>
+
+                  @if (product.oldPrice) {
+                    <span>
+                      ${{ product.oldPrice }}
+                    </span>
+                  }
+                </div>
+
+                <button
+                  class="add-cart-button"
+                  type="button"
+                >
+                  Add to cart
+                </button>
+              </div>
+            </article>
+          }
+        </div>
+      } @else {
+        <div class="empty-products">
+          <h3>No products found</h3>
+          <p>
+            Choose another category or search term.
+          </p>
+        </div>
+      }
+    </section>
+
+    <section class="collection-banner">
+      <div>
+        <p>NEW SEASON</p>
+
+        <h2>Fresh styles for every day</h2>
+
+        <span>
+          Explore updated colors, modern silhouettes and
+          versatile essentials.
+        </span>
+      </div>
+
+      <a href="#new-arrivals">
+        Discover New Arrivals
+      </a>
+    </section>
+
+    <section
+      id="new-arrivals"
+      class="products-section"
+    >
+      <div class="section-heading">
+        <div>
+          <p>JUST ARRIVED</p>
+
+          <h2>New arrivals</h2>
+        </div>
+
+        <span>
+          The newest pieces in the women’s collection.
+        </span>
+      </div>
+
+      @if (newProducts.length > 0) {
+        <div class="products-grid">
+          @for (
+            product of newProducts;
+            track product.id
+          ) {
+            <article class="product-card">
+              <div class="product-image">
+                <img
+                  [src]="product.image"
+                  [alt]="product.name"
+                />
+
+                <button
+                  class="favorite-button"
+                  type="button"
+                  [class.active]="product.isFavorite"
+                  (click)="toggleFavorite(product)"
+                  aria-label="Add to favorites"
+                >
+                  {{
+                    product.isFavorite
+                      ? '♥'
+                      : '♡'
+                  }}
+                </button>
+              </div>
+
+              <div class="product-information">
+                <p>{{ product.category }}</p>
+
+                <h3>{{ product.name }}</h3>
+
+                <div class="price">
+                  <strong>
+                    ${{ product.price }}
+                  </strong>
+                </div>
+
+                <button
+                  class="add-cart-button"
+                  type="button"
+                >
+                  Add to cart
+                </button>
+              </div>
+            </article>
+          }
+        </div>
+      } @else {
+        <div class="empty-products">
+          <h3>No products found</h3>
+          <p>
+            Choose another category or search term.
+          </p>
+        </div>
+      }
+    </section>
+
+    <section class="editorial-section">
+      <div class="editorial-image">
+        <img
+          src="/images/women/editorial.jpg"
+          alt="Women's editorial fashion"
+        />
+      </div>
+
+      <div class="editorial-content">
+        <p>STYLE EDIT</p>
+
+        <h2>Made to mix, match and repeat</h2>
+
+        <span>
+          Build a versatile wardrobe with pieces designed
+          to work together from season to season.
+        </span>
+
+        <a href="#recommended">
+          Explore Recommended Items
+        </a>
+      </div>
+    </section>
+
+    <section
+      id="recommended"
+      class="products-section recommended-section"
+    >
+      <div class="section-heading">
+        <div>
+          <p>SELECTED FOR YOU</p>
+
+          <h2>Recommended items</h2>
+        </div>
+
+        <span>
+          Complete your look with these selected pieces.
+        </span>
+      </div>
+
+      @if (recommendedProducts.length > 0) {
+        <div class="products-grid">
+          @for (
+            product of recommendedProducts;
+            track product.id
+          ) {
+            <article class="product-card">
+              <div class="product-image">
+                <img
+                  [src]="product.image"
+                  [alt]="product.name"
+                />
+
+                <button
+                  class="favorite-button"
+                  type="button"
+                  [class.active]="product.isFavorite"
+                  (click)="toggleFavorite(product)"
+                  aria-label="Add to favorites"
+                >
+                  {{
+                    product.isFavorite
+                      ? '♥'
+                      : '♡'
+                  }}
+                </button>
+              </div>
+
+              <div class="product-information">
+                <p>{{ product.category }}</p>
+
+                <h3>{{ product.name }}</h3>
+
+                <div class="price">
+                  <strong>
+                    ${{ product.price }}
+                  </strong>
+                </div>
+
+                <button
+                  class="add-cart-button"
+                  type="button"
+                >
+                  Add to cart
+                </button>
+              </div>
+            </article>
+          }
+        </div>
+      } @else {
+        <div class="empty-products">
+          <h3>No products found</h3>
+          <p>
+            Choose another category or search term.
+          </p>
+        </div>
+      }
+    </section>
+  </main>
+
+  <app-footer></app-footer>
+</div>
