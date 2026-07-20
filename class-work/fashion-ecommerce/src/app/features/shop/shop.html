@@ -1,0 +1,87 @@
+<div class="shop-page">
+  <app-navbar
+    (searchChanged)="searchProducts($event)"
+    (logoutClicked)="logout()"
+  ></app-navbar>
+
+  <main>
+    <section class="shop-hero">
+      <div class="shop-hero-overlay"></div>
+
+      <div class="shop-hero-content">
+        <p>DISCOVER TRENDIFY</p>
+
+        <h1>Shop every style</h1>
+
+        <span>
+          Browse our categories and find pieces selected
+          for your lifestyle.
+        </span>
+      </div>
+    </section>
+
+    <section class="categories-section">
+      <div class="section-heading">
+        <p>SHOP BY CATEGORY</p>
+
+        <h2>Find what you’re looking for</h2>
+
+        <span>
+          Choose a category to explore its complete collection.
+        </span>
+      </div>
+
+      <div class="categories-grid">
+        @for (category of categories; track category.id) {
+          <a
+            class="category-card"
+            [routerLink]="category.route"
+          >
+            <img
+              [src]="category.image"
+              [alt]="category.name"
+            />
+
+            <div class="category-overlay"></div>
+
+            <div class="category-information">
+              <p>{{ category.subtitle }}</p>
+
+              <h3>{{ category.name }}</h3>
+
+              <span>
+                {{ category.description }}
+              </span>
+
+              <div class="shop-link">
+                Explore Collection
+                <strong>→</strong>
+              </div>
+            </div>
+          </a>
+        }
+      </div>
+    </section>
+
+    <section class="shop-message">
+      <div>
+        <p>YOUR STYLE, OUR WAY</p>
+
+        <h2>
+          Fashion selected for every part of your life.
+        </h2>
+
+        <span>
+          From everyday essentials to statement pieces,
+          Trendify brings every category together in one place.
+        </span>
+      </div>
+
+      <a routerLink="/home">
+        Return Home
+      </a>
+    </section>
+  </main>
+
+  <app-footer></app-footer>
+</div>

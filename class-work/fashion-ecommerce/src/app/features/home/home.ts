@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { Navbar } from '../../shared/components/navbar/navbar';
+import { Footer } from '../../shared/components/footer/footer';
 
 interface Category {
   id: number;
@@ -23,7 +23,7 @@ interface Product {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [Navbar],
+  imports: [Navbar, Footer],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })

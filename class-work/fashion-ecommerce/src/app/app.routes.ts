@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { Login } from './features/auth/login/login';
 import { Signup } from './features/auth/signup/signup';
 import { Home } from './features/home/home';
+import { Shop } from './features/shop/shop';
 
 export const routes: Routes = [
   {
@@ -21,6 +22,10 @@ export const routes: Routes = [
   {
     path: 'home',
     component: Home
+  },
+  {
+    path: 'shop',
+    component: Shop
   },
   {
     path: '**',
