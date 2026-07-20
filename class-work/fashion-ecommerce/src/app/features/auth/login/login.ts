@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -17,25 +17,28 @@ export class Login {
   submitted = false;
   showPassword = false;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.loginForm = this.formBuilder.group({
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.email
-        ]
-      ],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6)
-        ]
-      ],
-      rememberMe: [false]
-    });
-  }
+  constructor(
+  private formBuilder: FormBuilder,
+  private router: Router
+) {
+  this.loginForm = this.formBuilder.group({
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.email
+      ]
+    ],
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(6)
+      ]
+    ],
+    rememberMe: [false]
+  });
+}
 
   get emailControl() {
     return this.loginForm.get('email');
@@ -50,13 +53,18 @@ export class Login {
   }
 
   onSubmit(): void {
-    this.submitted = true;
+  this.submitted = true;
 
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
-
-    console.log('Login information:', this.loginForm.value);
+  if (this.loginForm.invalid) {
+    this.loginForm.markAllAsTouched();
+    return;
   }
+
+  console.log(
+    'Login information:',
+    this.loginForm.value
+  );
+
+  this.router.navigate(['/home']);
+ }
 }

@@ -1,0 +1,296 @@
+<div class="home-page">
+  <app-navbar
+    (searchChanged)="updateSearch($event)"
+    (logoutClicked)="logout()"
+  ></app-navbar>
+
+  <main>
+    <section class="hero-section">
+      <img
+        class="hero-image"
+        src="/images/home/hero.jpg"
+        alt="Trendify seasonal fashion collection"
+      />
+
+      <div class="hero-overlay"></div>
+
+      <div class="hero-content">
+        <p class="hero-label">
+          NEW SEASON COLLECTION
+        </p>
+
+        <h1>
+          Your style,
+          <span>your story.</span>
+        </h1>
+
+        <p class="hero-description">
+          Discover modern fashion, timeless essentials and
+          accessories selected to express your personal style.
+        </p>
+
+        <a
+          class="hero-button"
+          href="#products"
+        >
+          Shop Collection
+        </a>
+      </div>
+    </section>
+
+    <section class="benefits-section">
+      <article class="benefit-card">
+        <span class="benefit-icon">
+          &#128666;
+        </span>
+
+        <div>
+          <h3>Free Shipping</h3>
+          <p>On orders over $70</p>
+        </div>
+      </article>
+
+      <article class="benefit-card">
+        <span class="benefit-icon">
+          &#8634;
+        </span>
+
+        <div>
+          <h3>Easy Returns</h3>
+          <p>Return within 14 days</p>
+        </div>
+      </article>
+
+      <article class="benefit-card">
+        <span class="benefit-icon">
+          &#10003;
+        </span>
+
+        <div>
+          <h3>Secure Payment</h3>
+          <p>Your payment is protected</p>
+        </div>
+      </article>
+
+      <article class="benefit-card">
+        <span class="benefit-icon">
+          &#9825;
+        </span>
+
+        <div>
+          <h3>Curated Styles</h3>
+          <p>Selected especially for you</p>
+        </div>
+      </article>
+    </section>
+
+    <section
+      id="categories"
+      class="content-section categories-section"
+    >
+      <div class="section-heading">
+        <div>
+          <p class="section-label">
+            FIND YOUR STYLE
+          </p>
+
+          <h2>Shop by category</h2>
+        </div>
+
+        <a href="#products">
+          View all products
+        </a>
+      </div>
+
+      <div class="categories-grid">
+        @for (category of categories; track category.id) {
+          <article class="category-card">
+            <img
+              [src]="category.image"
+              [alt]="category.name + ' category'"
+            />
+
+            <div class="category-overlay"></div>
+
+            <div class="category-content">
+              <p>{{ category.subtitle }}</p>
+
+              <h3>{{ category.name }}</h3>
+
+              <button type="button">
+                Shop now
+              </button>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section class="sale-banner">
+      <div class="sale-content">
+        <p>LIMITED-TIME OFFER</p>
+
+        <h2>End of season sale</h2>
+
+        <span>
+          Save up to 40% on selected styles.
+        </span>
+      </div>
+
+      <a href="#products">
+        Discover Sale
+      </a>
+    </section>
+
+    <section
+      id="products"
+      class="content-section products-section"
+    >
+      <div class="section-heading">
+        <div>
+          <p class="section-label">
+            TRENDING NOW
+          </p>
+
+          <h2>Our best sellers</h2>
+        </div>
+      </div>
+
+      @if (filteredProducts.length > 0) {
+        <div class="products-grid">
+          @for (
+            product of filteredProducts;
+            track product.id
+          ) {
+            <article class="product-card">
+              <div class="product-image">
+                <img
+                  [src]="product.image"
+                  [alt]="product.name"
+                />
+
+                <button
+                  class="favorite-button"
+                  type="button"
+                  [class.active]="product.isFavorite"
+                  (click)="toggleFavorite(product)"
+                  aria-label="Add product to favorites"
+                >
+                  {{
+                    product.isFavorite
+                      ? '♥'
+                      : '♡'
+                  }}
+                </button>
+
+                @if (product.oldPrice) {
+                  <span class="sale-tag">
+                    Sale
+                  </span>
+                }
+              </div>
+
+              <div class="product-information">
+                <p class="product-category">
+                  {{ product.category }}
+                </p>
+
+                <h3>{{ product.name }}</h3>
+
+                <div class="product-price">
+                  <strong>
+                    ${{ product.price }}
+                  </strong>
+
+                  @if (product.oldPrice) {
+                    <span>
+                      ${{ product.oldPrice }}
+                    </span>
+                  }
+                </div>
+              </div>
+            </article>
+          }
+        </div>
+      } @else {
+        <div class="empty-search">
+          <h3>No products found</h3>
+
+          <p>
+            Try searching for another product or category.
+          </p>
+        </div>
+      }
+    </section>
+  </main>
+
+  <footer
+    id="contact"
+    class="site-footer"
+  >
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h2>TRENDIFY</h2>
+
+        <p>
+          Modern fashion and accessories selected to make
+          every style feel personal.
+        </p>
+      </div>
+
+      <div class="footer-column">
+        <h3>Shop</h3>
+
+        <a href="#products">
+          New arrivals
+        </a>
+
+        <a href="#categories">
+          Categories
+        </a>
+
+        <a href="#products">
+          Best sellers
+        </a>
+      </div>
+
+      <div class="footer-column">
+        <h3>Customer Care</h3>
+
+        <a href="#contact">
+          Contact us
+        </a>
+
+        <a href="#contact">
+          Shipping
+        </a>
+
+        <a href="#contact">
+          Returns
+        </a>
+      </div>
+
+      <div class="footer-column">
+        <h3>Follow Us</h3>
+
+        <a href="#contact">
+          Instagram
+        </a>
+
+        <a href="#contact">
+          TikTok
+        </a>
+
+        <a href="#contact">
+          Pinterest
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>
+        © 2026 Trendify. All rights reserved.
+      </p>
+    </div>
+  </footer>
+</div>
