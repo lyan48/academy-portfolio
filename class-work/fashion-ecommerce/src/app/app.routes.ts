@@ -5,6 +5,7 @@ import { Signup } from './features/auth/signup/signup';
 import { Home } from './features/home/home';
 import { Shop } from './features/shop/shop';
 import { Women } from './features/shop/women/women';
+import { Men } from './features/shop/men/men';
 
 export const routes: Routes = [
   {
@@ -31,6 +32,10 @@ export const routes: Routes = [
   {
     path: 'shop/women',
     component: Women
+  },
+  {
+    path: 'shop/men',
+    component: Men
   },
   {
     path: '**',
