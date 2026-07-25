@@ -1,0 +1,148 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.error-page {
+  min-height: 100vh;
+  padding: 30px 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      rgba(255, 255, 255, 0.55),
+      rgba(255, 255, 255, 0.55)
+    ),
+    url('/images/auth-background.png') center / cover no-repeat;
+}
+
+.error-card {
+  width: 100%;
+  max-width: 520px;
+  padding: 48px 38px;
+
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.74);
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.14);
+
+  text-align: center;
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.error-code {
+  margin: 0;
+
+  color: #1b1b1b;
+  font-size: 82px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 5px;
+}
+
+h1 {
+  margin: 20px 0 0;
+
+  color: #171717;
+  font-size: 30px;
+}
+
+.error-description {
+  max-width: 410px;
+  margin: 14px auto 0;
+
+  color: #555555;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.error-actions {
+  margin-top: 30px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.primary-button,
+.secondary-button {
+  min-height: 49px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 7px;
+
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.primary-button {
+  border: 1px solid #1b1b1b;
+
+  background: #1b1b1b;
+  color: #ffffff;
+}
+
+.primary-button:hover {
+  background: #ffffff;
+  color: #1b1b1b;
+
+  transform: translateY(-1px);
+}
+
+.secondary-button {
+  border: 1px solid rgba(25, 25, 25, 0.4);
+
+  background: rgba(255, 255, 255, 0.55);
+  color: #1b1b1b;
+}
+
+.secondary-button:hover {
+  border-color: #1b1b1b;
+  background: #ffffff;
+
+  transform: translateY(-1px);
+}
+
+.text-link {
+  margin-top: 5px;
+
+  color: #333333;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.text-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 520px) {
+  .error-card {
+    padding: 38px 23px;
+  }
+
+  .error-code {
+    font-size: 67px;
+  }
+
+  h1 {
+    font-size: 25px;
+  }
+}

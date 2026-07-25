@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 
 import { Login } from './features/auth/login/login';
 import { Signup } from './features/auth/signup/signup';
+import { NotFound } from './features/errors/not-found/not-found';
 import { Unauthorized } from './features/errors/unauthorized/unauthorized';
 import { Home } from './features/home/home';
 import { Men } from './features/shop/men/men';
@@ -43,9 +44,9 @@ export const routes: Routes = [
     component: Unauthorized
   },
 
-  // This must always remain last.
+  // This route must always remain last.
   {
     path: '**',
-    redirectTo: 'login'
+    component: NotFound
   }
 ];
