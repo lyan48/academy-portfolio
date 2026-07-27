@@ -1,13 +1,17 @@
 import {
   Component,
   EventEmitter,
+  inject,
   Output
 } from '@angular/core';
-
 import {
+  Router,
   RouterLink,
   RouterLinkActive
 } from '@angular/router';
+
+import { AuthService } from '../../../core/services/auth';
+import { GuestSessionService } from '../../../core/services/guest-session';
 
 @Component({
   selector: 'app-navbar',
@@ -20,8 +24,12 @@ import {
   styleUrl: './navbar.scss'
 })
 export class Navbar {
+  private readonly authService = inject(AuthService);
+  private readonly guestSessionService =
+    inject(GuestSessionService);
+  private readonly router = inject(Router);
+
   @Output() searchChanged = new EventEmitter<string>();
-  @Output() logoutClicked = new EventEmitter<void>();
 
   searchProducts(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -30,6 +38,8 @@ export class Navbar {
   }
 
   logout(): void {
-    this.logoutClicked.emit();
+    this.authService.logout();
+    this.guestSessionService.endGuestSession();
+    this.router.navigate(['/login']);
   }
 }

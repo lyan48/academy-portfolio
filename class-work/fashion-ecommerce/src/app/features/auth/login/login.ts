@@ -1,6 +1,21 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import {
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink
+} from '@angular/router';
+import { finalize } from 'rxjs';
+
+import {
+  AuthService,
+  LoginResponse
+} from '../../../core/services/auth';
+import { GuestSessionService } from '../../../core/services/guest-session';
 
 @Component({
   selector: 'app-login',
@@ -13,15 +28,19 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './login.scss'
 })
 export class Login {
-  loginForm: FormGroup;
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly authService = inject(AuthService);
+  private readonly guestSessionService =
+    inject(GuestSessionService);
+
   submitted = false;
   showPassword = false;
+  isLoading = false;
+  loginError = '';
 
-  constructor(
-  private formBuilder: FormBuilder,
-  private router: Router
-) {
-  this.loginForm = this.formBuilder.group({
+  readonly loginForm = this.formBuilder.group({
     email: [
       '',
       [
@@ -38,7 +57,6 @@ export class Login {
     ],
     rememberMe: [false]
   });
-}
 
   get emailControl() {
     return this.loginForm.get('email');
@@ -52,19 +70,70 @@ export class Login {
     this.showPassword = !this.showPassword;
   }
 
-  onSubmit(): void {
-  this.submitted = true;
-
-  if (this.loginForm.invalid) {
-    this.loginForm.markAllAsTouched();
-    return;
+  continueAsGuest(): void {
+    this.authService.logout();
+    this.guestSessionService.startGuestSession();
+    this.router.navigate(['/home']);
   }
 
-  console.log(
-    'Login information:',
-    this.loginForm.value
-  );
+  onSubmit(): void {
+    this.submitted = true;
+    this.loginError = '';
 
-  this.router.navigate(['/home']);
- }
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
+    const email = this.loginForm.controls.email.value;
+    const password = this.loginForm.controls.password.value;
+    const rememberMe =
+      this.loginForm.controls.rememberMe.value ?? false;
+
+    if (!email || !password) {
+      return;
+    }
+
+    this.isLoading = true;
+
+    this.authService
+      .login(
+        {
+          email,
+          password
+        },
+        rememberMe
+      )
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
+      .subscribe({
+        next: (response: LoginResponse) => {
+          console.log('Logged-in user:', response.user);
+
+          this.guestSessionService.endGuestSession();
+
+          const returnUrl =
+            this.activatedRoute.snapshot.queryParamMap.get(
+              'returnUrl'
+            );
+
+          const destination =
+            returnUrl?.startsWith('/')
+              ? returnUrl
+              : '/home';
+
+          this.router.navigateByUrl(destination);
+        },
+
+        error: (error: unknown) => {
+          console.error('Login failed:', error);
+
+          this.loginError =
+            'The email or password is incorrect. Please try again.';
+        }
+      });
+  }
 }

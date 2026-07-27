@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 
+import { browseGuard } from './core/guards/browse.guard';
 import { Login } from './features/auth/login/login';
 import { Signup } from './features/auth/signup/signup';
 import { NotFound } from './features/errors/not-found/not-found';
@@ -25,26 +26,30 @@ export const routes: Routes = [
   },
   {
     path: 'home',
-    component: Home
+    component: Home,
+    canActivate: [browseGuard]
   },
   {
     path: 'shop',
-    component: Shop
+    component: Shop,
+    canActivate: [browseGuard]
   },
   {
     path: 'shop/women',
-    component: Women
+    component: Women,
+    canActivate: [browseGuard]
   },
   {
     path: 'shop/men',
-    component: Men
+    component: Men,
+    canActivate: [browseGuard]
   },
   {
     path: 'unauthorized',
     component: Unauthorized
   },
 
-  // This route must always remain last.
+  // This route must always stay last.
   {
     path: '**',
     component: NotFound

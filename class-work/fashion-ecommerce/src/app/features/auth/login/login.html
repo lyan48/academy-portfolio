@@ -4,7 +4,7 @@
   <section class="auth-content">
     <header class="brand">
       <h1>TRENDIFY</h1>
-      <p>Your style, our way.</p>
+      <p>Your style, our signature.</p>
     </header>
 
     <div class="auth-card">
@@ -95,10 +95,28 @@
           </button>
         </div>
 
-        <button class="submit-button" type="submit">
-          Sign In
+        @if (loginError) {
+          <p class="error-message">
+            {{ loginError }}
+          </p>
+      }
+
+        <button
+          class="submit-button"
+          type="submit"
+          [disabled]="isLoading"
+        >
+          {{ isLoading ? 'Signing In...' : 'Sign In' }}
         </button>
       </form>
+
+      <button
+        class="guest-button"
+        type="button"
+        (click)="continueAsGuest()"
+      >
+        Continue without signing in
+      </button>
 
       <p class="change-page">
         Don’t have an account?
