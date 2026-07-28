@@ -1,19 +1,19 @@
-<div class="men-page">
+<div class="jewelry-page">
   <app-navbar (searchChanged)="updateSearch($event)"></app-navbar>
 
   <main>
-    <section class="men-hero">
-      <img src="/images/men/hero.jpg" alt="Men's fashion collection" />
+    <section class="jewelry-hero">
+      <img src="/images/jewelry/hero.jpg" alt="Jewelry collection" />
 
       <div class="hero-overlay"></div>
 
       <div class="hero-content">
-        <p>MEN’S COLLECTION</p>
+        <p>JEWELRY COLLECTION</p>
 
-        <h1>Define your style</h1>
+        <h1>Complete your look</h1>
 
         <span>
-          Discover everyday essentials, refined tailoring and modern pieces selected for every
+          Discover timeless jewelry, delicate details and statement accessories selected for every
           occasion.
         </span>
 
@@ -29,7 +29,8 @@
 
     <section class="subcategory-section">
       <div class="subcategory-heading">
-        <p>SHOP MEN</p>
+        <p>SHOP JEWELRY</p>
+
         <h2>Explore the collection</h2>
       </div>
 
@@ -66,7 +67,11 @@
         <label class="sort-control">
           <span>Sort by</span>
 
-          <select [value]="sortOption" (change)="updateSort($event)" aria-label="Sort products">
+          <select
+            [value]="sortOption"
+            (change)="updateSort($event)"
+            aria-label="Sort jewelry products"
+          >
             <option value="default">Featured</option>
 
             <option value="price-low-high">Price: Low to High</option>
@@ -85,10 +90,10 @@
       <div class="section-heading">
         <div>
           <p>FEATURED COLLECTION</p>
-          <h2>Men’s essentials</h2>
+          <h2>Timeless favorites</h2>
         </div>
 
-        <span> Versatile pieces selected for modern everyday style. </span>
+        <span> Elegant pieces selected to complete every look. </span>
       </div>
 
       @if (featuredProducts.length > 0) {
@@ -103,18 +108,19 @@
               type="button"
               [class.active]="product.isFavorite"
               (click)="toggleFavorite(product)"
-              aria-label="Add to favorites"
+              aria-label="Add jewelry item to favorites"
             >
               {{ product.isFavorite ? '♥' : '♡' }}
             </button>
 
             @if (product.oldPrice) {
-            <span class="sale-label">Sale</span>
+            <span class="sale-label"> Sale </span>
             }
           </div>
 
           <div class="product-information">
             <p>{{ product.category }}</p>
+
             <h3>{{ product.name }}</h3>
 
             <div class="price">
@@ -140,11 +146,12 @@
 
     <section class="collection-banner">
       <div>
-        <p>NEW SEASON</p>
-        <h2>Refined everyday pieces</h2>
+        <p>NEW COLLECTION</p>
+
+        <h2>Details that make a difference</h2>
 
         <span>
-          Discover versatile layers, clean silhouettes and updated essentials for the new season.
+          Discover refined finishes, delicate shapes and accessories designed for everyday elegance.
         </span>
       </div>
 
@@ -157,10 +164,11 @@
       <div class="section-heading">
         <div>
           <p>JUST ARRIVED</p>
+
           <h2>New arrivals</h2>
         </div>
 
-        <span> The latest additions to the Men’s collection. </span>
+        <span> The newest additions to the jewelry collection. </span>
       </div>
 
       @if (newProducts.length > 0) {
@@ -175,7 +183,7 @@
               type="button"
               [class.active]="product.isFavorite"
               (click)="toggleFavorite(product)"
-              aria-label="Add to favorites"
+              aria-label="Add jewelry item to favorites"
             >
               {{ product.isFavorite ? '♥' : '♡' }}
             </button>
@@ -183,6 +191,7 @@
 
           <div class="product-information">
             <p>{{ product.category }}</p>
+
             <h3>{{ product.name }}</h3>
 
             <div class="price">
@@ -204,16 +213,17 @@
 
     <section class="editorial-section">
       <div class="editorial-image">
-        <img src="/images/men/editorial.jpg" alt="Men's editorial fashion" />
+        <img src="/images/jewelry/editorial.jpg" alt="Jewelry editorial collection" />
       </div>
 
       <div class="editorial-content">
         <p>STYLE EDIT</p>
-        <h2>Built for every part of your day</h2>
+
+        <h2>Small details, lasting style</h2>
 
         <span>
-          Combine versatile layers, neutral colors and refined basics to create effortless everyday
-          outfits.
+          Layer subtle pieces, combine different finishes and create a jewelry collection that feels
+          personal.
         </span>
 
         <button
@@ -230,10 +240,11 @@
       <div class="section-heading">
         <div>
           <p>SELECTED FOR YOU</p>
+
           <h2>Recommended items</h2>
         </div>
 
-        <span> Finish your look with these selected pieces. </span>
+        <span> Complete your collection with these selected pieces. </span>
       </div>
 
       @if (recommendedProducts.length > 0) {
@@ -248,7 +259,7 @@
               type="button"
               [class.active]="product.isFavorite"
               (click)="toggleFavorite(product)"
-              aria-label="Add to favorites"
+              aria-label="Add jewelry item to favorites"
             >
               {{ product.isFavorite ? '♥' : '♡' }}
             </button>
@@ -256,6 +267,7 @@
 
           <div class="product-information">
             <p>{{ product.category }}</p>
+
             <h3>{{ product.name }}</h3>
 
             <div class="price">

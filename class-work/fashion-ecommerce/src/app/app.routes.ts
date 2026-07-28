@@ -9,49 +9,54 @@ import { Home } from './features/home/home';
 import { Men } from './features/shop/men/men';
 import { Shop } from './features/shop/shop';
 import { Women } from './features/shop/women/women';
+import { Jewelry } from './features/shop/jewelry/jewelry';
 
 export const routes: Routes = [
   {
     path: '',
     redirectTo: 'login',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'login',
-    component: Login
+    component: Login,
   },
   {
     path: 'signup',
-    component: Signup
+    component: Signup,
   },
   {
     path: 'home',
     component: Home,
-    canActivate: [browseGuard]
+    canActivate: [browseGuard],
   },
   {
     path: 'shop',
     component: Shop,
-    canActivate: [browseGuard]
+    canActivate: [browseGuard],
   },
   {
     path: 'shop/women',
     component: Women,
-    canActivate: [browseGuard]
+    canActivate: [browseGuard],
   },
   {
     path: 'shop/men',
     component: Men,
-    canActivate: [browseGuard]
+    canActivate: [browseGuard],
+  },
+  {
+    path: 'shop/jewelry',
+    component: Jewelry,
   },
   {
     path: 'unauthorized',
-    component: Unauthorized
+    component: Unauthorized,
   },
 
   // This route must always stay last.
   {
     path: '**',
-    component: NotFound
-  }
+    component: NotFound,
+  },
 ];

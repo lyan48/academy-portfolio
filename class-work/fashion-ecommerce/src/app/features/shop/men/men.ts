@@ -187,6 +187,15 @@ export class Men {
     product.isFavorite = !product.isFavorite;
   }
 
+  scrollToSection(sectionId: string): void {
+    const section = document.getElementById(sectionId);
+
+    section?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  }
+
   logout(): void {
     this.router.navigate(['/login']);
   }

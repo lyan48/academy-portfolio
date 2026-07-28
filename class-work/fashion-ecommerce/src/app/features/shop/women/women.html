@@ -16,7 +16,13 @@
           Discover modern essentials, timeless pieces and statement looks selected for every moment.
         </span>
 
-        <a href="#featured-products"> Explore Collection </a>
+        <button
+          class="hero-scroll-button"
+          type="button"
+          (click)="scrollToSection('featured-products')"
+        >
+          Explore Collection
+        </button>
       </div>
     </section>
 
@@ -143,7 +149,9 @@
         <span> Explore updated colors, modern silhouettes and versatile essentials. </span>
       </div>
 
-      <a href="#new-arrivals"> Discover New Arrivals </a>
+      <button class="banner-scroll-button" type="button" (click)="scrollToSection('new-arrivals')">
+        Discover New Arrivals
+      </button>
     </section>
 
     <section id="new-arrivals" class="products-section">
@@ -211,7 +219,13 @@
           Build a versatile wardrobe with pieces designed to work together from season to season.
         </span>
 
-        <a href="#recommended"> Explore Recommended Items </a>
+        <button
+          class="editorial-scroll-button"
+          type="button"
+          (click)="scrollToSection('recommended')"
+        >
+          Explore Recommended Items
+        </button>
       </div>
     </section>
 

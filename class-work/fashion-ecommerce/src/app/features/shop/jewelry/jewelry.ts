@@ -1,171 +1,166 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 
-import { Navbar } from '../../../shared/components/navbar/navbar';
 import { Footer } from '../../../shared/components/footer/footer';
+import { Navbar } from '../../../shared/components/navbar/navbar';
 
-type WomenSection = 'featured' | 'new' | 'recommended';
+type JewelrySection = 'featured' | 'new' | 'recommended';
 
 type SortOption = 'default' | 'price-low-high' | 'price-high-low' | 'name-a-z' | 'name-z-a';
 
-interface WomenProduct {
+interface JewelryProduct {
   id: number;
   name: string;
   category: string;
   price: number;
   oldPrice?: number;
   image: string;
-  section: WomenSection;
+  section: JewelrySection;
   isFavorite: boolean;
 }
 
 @Component({
-  selector: 'app-women',
+  selector: 'app-jewelry',
   standalone: true,
   imports: [Navbar, Footer],
-  templateUrl: './women.html',
-  styleUrl: './women.scss',
+  templateUrl: './jewelry.html',
+  styleUrl: './jewelry.scss',
 })
-export class Women {
+export class Jewelry {
   searchText = '';
   selectedCategory = 'All';
   sortOption: SortOption = 'default';
 
   subcategories: string[] = [
-    'Tops',
-    'T-Shirts',
-    'Jackets',
-    'Dresses',
-    'Pants',
-    'Shoes',
-    'Bags',
-    'Accessories',
+    'Necklaces',
+    'Rings',
+    'Bracelets',
+    'Earrings',
+    'Watches',
+    'Brooches',
+    'Hair Accessories',
   ];
 
-  products: WomenProduct[] = [
+  products: JewelryProduct[] = [
     {
       id: 1,
-      name: 'Classic White Top',
-      category: 'Tops',
-      price: 34.99,
-      image: '/images/women/product-1.jpg',
+      name: 'Minimal Gold Necklace',
+      category: 'Necklaces',
+      price: 39.99,
+      image: '/images/jewelry/product-1.jpg',
       section: 'featured',
       isFavorite: false,
     },
     {
       id: 2,
-      name: 'Oversized Red T-Shirt',
-      category: 'T-Shirts',
-      price: 27.99,
-      image: '/images/women/product-2.jpg',
+      name: 'Pearl Drop Earrings',
+      category: 'Earrings',
+      price: 29.99,
+      image: '/images/jewelry/product-2.jpg',
       section: 'featured',
       isFavorite: false,
     },
     {
       id: 3,
-      name: 'Casual Beige Jacket',
-      category: 'Jackets',
-      price: 59.99,
-      oldPrice: 74.99,
-      image: '/images/women/product-3.jpg',
+      name: 'Classic Silver Ring',
+      category: 'Rings',
+      price: 34.99,
+      image: '/images/jewelry/product-3.jpg',
       section: 'featured',
       isFavorite: false,
     },
     {
       id: 4,
-      name: 'Black Evening Dress',
-      category: 'Dresses',
-      price: 79.99,
-      image: '/images/women/product-4.jpg',
+      name: 'Elegant Chain Bracelet',
+      category: 'Bracelets',
+      price: 44.99,
+      oldPrice: 54.99,
+      image: '/images/jewelry/product-4.jpg',
       section: 'featured',
       isFavorite: false,
     },
     {
       id: 5,
-      name: 'Soft Knit Sweater',
-      category: 'Tops',
-      price: 42.99,
-      image: '/images/women/product-5.jpg',
+      name: 'Layered Pendant Necklace',
+      category: 'Necklaces',
+      price: 49.99,
+      image: '/images/jewelry/product-5.jpg',
       section: 'new',
       isFavorite: false,
     },
     {
       id: 6,
-      name: 'Wide Leg Trousers',
-      category: 'Pants',
-      price: 46.99,
-      image: '/images/women/product-6.jpg',
+      name: 'Modern Hoop Earrings',
+      category: 'Earrings',
+      price: 27.99,
+      image: '/images/jewelry/product-6.jpg',
       section: 'new',
       isFavorite: false,
     },
     {
       id: 7,
-      name: 'Denim Everyday Jacket',
-      category: 'Jackets',
-      price: 64.99,
-      image: '/images/women/product-7.jpg',
+      name: 'Textured Gold Ring',
+      category: 'Rings',
+      price: 38.99,
+      image: '/images/jewelry/product-7.jpg',
       section: 'new',
       isFavorite: false,
     },
     {
       id: 8,
-      name: 'Minimal Shoulder Bag',
-      category: 'Bags',
-      price: 38.99,
-      image: '/images/women/product-8.jpg',
+      name: 'Delicate Charm Bracelet',
+      category: 'Bracelets',
+      price: 41.99,
+      image: '/images/jewelry/product-8.jpg',
       section: 'new',
       isFavorite: false,
     },
     {
       id: 9,
-      name: 'Elegant Neutral Dress',
-      category: 'Dresses',
-      price: 69.99,
-      image: '/images/women/product-9.jpg',
+      name: 'Classic Leather Watch',
+      category: 'Watches',
+      price: 79.99,
+      image: '/images/jewelry/product-9.jpg',
       section: 'recommended',
       isFavorite: false,
     },
     {
       id: 10,
-      name: 'Classic Black Heels',
-      category: 'Shoes',
-      price: 54.99,
-      image: '/images/women/product-10.jpg',
+      name: 'Crystal Floral Brooch',
+      category: 'Brooches',
+      price: 32.99,
+      image: '/images/jewelry/product-10.jpg',
       section: 'recommended',
       isFavorite: false,
     },
     {
       id: 11,
-      name: 'Gold Detail Handbag',
-      category: 'Bags',
-      price: 48.99,
-      image: '/images/women/product-11.jpg',
+      name: 'Pearl Hair Clip',
+      category: 'Hair Accessories',
+      price: 19.99,
+      image: '/images/jewelry/product-11.jpg',
       section: 'recommended',
       isFavorite: false,
     },
     {
       id: 12,
-      name: 'Lightweight Summer Blazer',
-      category: 'Jackets',
-      price: 72.99,
-      image: '/images/women/product-12.jpg',
+      name: 'Rose Gold Bracelet',
+      category: 'Bracelets',
+      price: 46.99,
+      image: '/images/jewelry/product-12.jpg',
       section: 'recommended',
       isFavorite: false,
     },
   ];
 
-  // eslint-disable-next-line @angular-eslint/prefer-inject
-  constructor(private router: Router) {}
-
-  get featuredProducts(): WomenProduct[] {
+  get featuredProducts(): JewelryProduct[] {
     return this.filterProducts('featured');
   }
 
-  get newProducts(): WomenProduct[] {
+  get newProducts(): JewelryProduct[] {
     return this.filterProducts('new');
   }
 
-  get recommendedProducts(): WomenProduct[] {
+  get recommendedProducts(): JewelryProduct[] {
     return this.filterProducts('recommended');
   }
 
@@ -183,7 +178,7 @@ export class Women {
     this.sortOption = selectElement.value as SortOption;
   }
 
-  toggleFavorite(product: WomenProduct): void {
+  toggleFavorite(product: JewelryProduct): void {
     product.isFavorite = !product.isFavorite;
   }
 
@@ -196,29 +191,25 @@ export class Women {
     });
   }
 
-  logout(): void {
-    this.router.navigate(['/login']);
-  }
-
-  private filterProducts(section: WomenSection): WomenProduct[] {
+  private filterProducts(section: JewelrySection): JewelryProduct[] {
     const filteredProducts = this.products.filter((product) => {
       const matchesSection = product.section === section;
+
+      const matchesCategory =
+        this.selectedCategory === 'All' || product.category === this.selectedCategory;
 
       const matchesSearch =
         !this.searchText ||
         product.name.toLowerCase().includes(this.searchText) ||
         product.category.toLowerCase().includes(this.searchText);
 
-      const matchesCategory =
-        this.selectedCategory === 'All' || product.category === this.selectedCategory;
-
-      return matchesSection && matchesSearch && matchesCategory;
+      return matchesSection && matchesCategory && matchesSearch;
     });
 
     return this.sortProducts(filteredProducts);
   }
 
-  private sortProducts(products: WomenProduct[]): WomenProduct[] {
+  private sortProducts(products: JewelryProduct[]): JewelryProduct[] {
     const sortedProducts = [...products];
 
     switch (this.sortOption) {
