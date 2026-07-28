@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
-import { Navbar } from '../../shared/components/navbar/navbar';
+import { Post, PostService } from '../../core/services/post';
 import { Footer } from '../../shared/components/footer/footer';
+import { Navbar } from '../../shared/components/navbar/navbar';
 
 interface ShopCategory {
   id: number;
@@ -24,7 +25,9 @@ interface ShopCategory {
   templateUrl: './shop.html',
   styleUrl: './shop.scss'
 })
-export class Shop {
+export class Shop implements OnInit {
+  private readonly postService = inject(PostService);
+
   categories: ShopCategory[] = [
     {
       id: 1,
@@ -64,7 +67,25 @@ export class Shop {
     }
   ];
 
-  constructor(private router: Router) {}
+  posts: Post[] = [];
+  errorMessage = '';
+
+  ngOnInit(): void {
+    this.loadPosts();
+  }
+
+  loadPosts(): void {
+    this.postService.getPosts().subscribe({
+      next: (posts: Post[]) => {
+        this.posts = posts;
+        console.log('Posts from backend:', posts);
+      },
+      error: (error: unknown) => {
+        console.error('Backend request failed:', error);
+        this.errorMessage = 'Could not load data from the backend.';
+      }
+    });
+  }
 
   searchProducts(searchValue: string): void {
     const trimmedSearch = searchValue.trim();
@@ -74,9 +95,5 @@ export class Shop {
     }
 
     console.log('Search value:', trimmedSearch);
-  }
-
-  logout(): void {
-    this.router.navigate(['/login']);
   }
 }

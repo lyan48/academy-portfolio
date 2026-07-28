@@ -4,7 +4,7 @@
   <section class="auth-content">
     <header class="brand">
       <h1>TRENDIFY</h1>
-      <p>Your style, our way.</p>
+      <p>Your style, our signature.</p>
     </header>
 
     <div class="auth-card">
@@ -14,8 +14,7 @@
         <h2>Create your account</h2>
 
         <p class="description">
-          Enter your information to start discovering
-          your new style.
+          Enter your information to start discovering your new style.
         </p>
       </div>
 
@@ -43,9 +42,7 @@
               (firstNameControl?.touched || submitted)
             ) {
               <p class="error-message">
-                @if (
-                  firstNameControl?.hasError('required')
-                ) {
+                @if (firstNameControl?.hasError('required')) {
                   First name is required.
                 } @else {
                   Enter at least 2 characters.
@@ -72,9 +69,7 @@
               (lastNameControl?.touched || submitted)
             ) {
               <p class="error-message">
-                @if (
-                  lastNameControl?.hasError('required')
-                ) {
+                @if (lastNameControl?.hasError('required')) {
                   Last name is required.
                 } @else {
                   Enter at least 2 characters.
@@ -162,9 +157,7 @@
               (phoneNumberControl?.touched || submitted)
             ) {
               <p class="error-message">
-                @if (
-                  phoneNumberControl?.hasError('required')
-                ) {
+                @if (phoneNumberControl?.hasError('required')) {
                   Phone number is required.
                 } @else {
                   Enter a valid phone number.
@@ -186,29 +179,11 @@
                 Select country
               </option>
 
-              <option value="Lebanon">
-                Lebanon
-              </option>
-
-              <option value="France">
-                France
-              </option>
-
-              <option value="Italy">
-                Italy
-              </option>
-
-              <option value="Greece">
-                Greece
-              </option>
-
-              <option value="United Arab Emirates">
-                United Arab Emirates
-              </option>
-
-              <option value="Other">
-                Other
-              </option>
+              @for (country of countries; track country) {
+                <option [value]="country">
+                  {{ country }}
+                </option>
+              }
             </select>
 
             @if (
@@ -240,9 +215,7 @@
             (emailControl?.touched || submitted)
           ) {
             <p class="error-message">
-              @if (
-                emailControl?.hasError('required')
-              ) {
+              @if (emailControl?.hasError('required')) {
                 Email is required.
               } @else {
                 Enter a valid email address.
@@ -280,13 +253,9 @@
               (passwordControl?.touched || submitted)
             ) {
               <p class="error-message">
-                @if (
-                  passwordControl?.hasError('required')
-                ) {
+                @if (passwordControl?.hasError('required')) {
                   Password is required.
-                } @else if (
-                  passwordControl?.hasError('minlength')
-                ) {
+                } @else if (passwordControl?.hasError('minlength')) {
                   Use at least 8 characters.
                 } @else {
                   Include uppercase, lowercase and a number.
@@ -303,11 +272,7 @@
             <div class="password-input">
               <input
                 id="confirmPassword"
-                [type]="
-                  showConfirmPassword
-                    ? 'text'
-                    : 'password'
-                "
+                [type]="showConfirmPassword ? 'text' : 'password'"
                 formControlName="confirmPassword"
                 placeholder="Repeat password"
                 autocomplete="new-password"
@@ -318,11 +283,7 @@
                 type="button"
                 (click)="toggleConfirmPassword()"
               >
-                {{
-                  showConfirmPassword
-                    ? 'Hide'
-                    : 'Show'
-                }}
+                {{ showConfirmPassword ? 'Hide' : 'Show' }}
               </button>
             </div>
 
@@ -360,8 +321,7 @@
           />
 
           <span>
-            I agree to the Terms of Service and
-            Privacy Policy.
+            I agree to the Terms of Service and Privacy Policy.
           </span>
         </label>
 
@@ -374,11 +334,22 @@
           </p>
         }
 
+        @if (signupError) {
+          <p class="error-message">
+            {{ signupError }}
+          </p>
+        }
+
         <button
           class="submit-button"
           type="submit"
+          [disabled]="isLoading"
         >
-          Create Account
+          {{
+            isLoading
+              ? 'Creating Account...'
+              : 'Create Account'
+          }}
         </button>
       </form>
 

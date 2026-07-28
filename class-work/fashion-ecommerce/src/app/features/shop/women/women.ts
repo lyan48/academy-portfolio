@@ -4,6 +4,10 @@ import { Router } from '@angular/router';
 import { Navbar } from '../../../shared/components/navbar/navbar';
 import { Footer } from '../../../shared/components/footer/footer';
 
+type WomenSection = 'featured' | 'new' | 'recommended';
+
+type SortOption = 'default' | 'price-low-high' | 'price-high-low' | 'name-a-z' | 'name-z-a';
+
 interface WomenProduct {
   id: number;
   name: string;
@@ -11,24 +15,23 @@ interface WomenProduct {
   price: number;
   oldPrice?: number;
   image: string;
-  section: string;
+  section: WomenSection;
   isFavorite: boolean;
 }
 
 @Component({
   selector: 'app-women',
   standalone: true,
-  imports: [
-    Navbar,
-    Footer
-  ],
+  imports: [Navbar, Footer],
   templateUrl: './women.html',
-  styleUrl: './women.scss'
+  styleUrl: './women.scss',
 })
 export class Women {
   searchText = '';
+  selectedCategory = 'All';
+  sortOption: SortOption = 'default';
 
-  subcategories = [
+  subcategories: string[] = [
     'Tops',
     'T-Shirts',
     'Jackets',
@@ -36,7 +39,7 @@ export class Women {
     'Pants',
     'Shoes',
     'Bags',
-    'Accessories'
+    'Accessories',
   ];
 
   products: WomenProduct[] = [
@@ -47,7 +50,7 @@ export class Women {
       price: 34.99,
       image: '/images/women/product-1.jpg',
       section: 'featured',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 2,
@@ -56,7 +59,7 @@ export class Women {
       price: 27.99,
       image: '/images/women/product-2.jpg',
       section: 'featured',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 3,
@@ -66,7 +69,7 @@ export class Women {
       oldPrice: 74.99,
       image: '/images/women/product-3.jpg',
       section: 'featured',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 4,
@@ -75,7 +78,7 @@ export class Women {
       price: 79.99,
       image: '/images/women/product-4.jpg',
       section: 'featured',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 5,
@@ -84,7 +87,7 @@ export class Women {
       price: 42.99,
       image: '/images/women/product-5.jpg',
       section: 'new',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 6,
@@ -93,7 +96,7 @@ export class Women {
       price: 46.99,
       image: '/images/women/product-6.jpg',
       section: 'new',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 7,
@@ -102,7 +105,7 @@ export class Women {
       price: 64.99,
       image: '/images/women/product-7.jpg',
       section: 'new',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 8,
@@ -111,7 +114,7 @@ export class Women {
       price: 38.99,
       image: '/images/women/product-8.jpg',
       section: 'new',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 9,
@@ -120,7 +123,7 @@ export class Women {
       price: 69.99,
       image: '/images/women/product-9.jpg',
       section: 'recommended',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 10,
@@ -129,7 +132,7 @@ export class Women {
       price: 54.99,
       image: '/images/women/product-10.jpg',
       section: 'recommended',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 11,
@@ -138,7 +141,7 @@ export class Women {
       price: 48.99,
       image: '/images/women/product-11.jpg',
       section: 'recommended',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 12,
@@ -147,24 +150,23 @@ export class Women {
       price: 72.99,
       image: '/images/women/product-12.jpg',
       section: 'recommended',
-      isFavorite: false
-    }
+      isFavorite: false,
+    },
   ];
 
-  selectedCategory = 'All';
-
+  // eslint-disable-next-line @angular-eslint/prefer-inject
   constructor(private router: Router) {}
 
   get featuredProducts(): WomenProduct[] {
-    return this.filterProductsBySection('featured');
+    return this.filterProducts('featured');
   }
 
   get newProducts(): WomenProduct[] {
-    return this.filterProductsBySection('new');
+    return this.filterProducts('new');
   }
 
   get recommendedProducts(): WomenProduct[] {
-    return this.filterProductsBySection('recommended');
+    return this.filterProducts('recommended');
   }
 
   updateSearch(searchValue: string): void {
@@ -175,6 +177,12 @@ export class Women {
     this.selectedCategory = category;
   }
 
+  updateSort(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+
+    this.sortOption = selectElement.value as SortOption;
+  }
+
   toggleFavorite(product: WomenProduct): void {
     product.isFavorite = !product.isFavorite;
   }
@@ -183,10 +191,8 @@ export class Women {
     this.router.navigate(['/login']);
   }
 
-  private filterProductsBySection(
-    section: string
-  ): WomenProduct[] {
-    return this.products.filter((product) => {
+  private filterProducts(section: WomenSection): WomenProduct[] {
+    const filteredProducts = this.products.filter((product) => {
       const matchesSection = product.section === section;
 
       const matchesSearch =
@@ -195,14 +201,40 @@ export class Women {
         product.category.toLowerCase().includes(this.searchText);
 
       const matchesCategory =
-        this.selectedCategory === 'All' ||
-        product.category === this.selectedCategory;
+        this.selectedCategory === 'All' || product.category === this.selectedCategory;
 
-      return (
-        matchesSection &&
-        matchesSearch &&
-        matchesCategory
-      );
+      return matchesSection && matchesSearch && matchesCategory;
     });
+
+    return this.sortProducts(filteredProducts);
+  }
+
+  private sortProducts(products: WomenProduct[]): WomenProduct[] {
+    const sortedProducts = [...products];
+
+    switch (this.sortOption) {
+      case 'price-low-high':
+        return sortedProducts.sort(
+          (firstProduct, secondProduct) => firstProduct.price - secondProduct.price,
+        );
+
+      case 'price-high-low':
+        return sortedProducts.sort(
+          (firstProduct, secondProduct) => secondProduct.price - firstProduct.price,
+        );
+
+      case 'name-a-z':
+        return sortedProducts.sort((firstProduct, secondProduct) =>
+          firstProduct.name.localeCompare(secondProduct.name),
+        );
+
+      case 'name-z-a':
+        return sortedProducts.sort((firstProduct, secondProduct) =>
+          secondProduct.name.localeCompare(firstProduct.name),
+        );
+
+      default:
+        return sortedProducts;
+    }
   }
 }

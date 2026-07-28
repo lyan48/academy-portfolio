@@ -4,6 +4,10 @@ import { Router } from '@angular/router';
 import { Navbar } from '../../../shared/components/navbar/navbar';
 import { Footer } from '../../../shared/components/footer/footer';
 
+type MenSection = 'featured' | 'new' | 'recommended';
+
+type SortOption = 'default' | 'price-low-high' | 'price-high-low' | 'name-a-z' | 'name-z-a';
+
 interface MenProduct {
   id: number;
   name: string;
@@ -11,23 +15,21 @@ interface MenProduct {
   price: number;
   oldPrice?: number;
   image: string;
-  section: 'featured' | 'new' | 'recommended';
+  section: MenSection;
   isFavorite: boolean;
 }
 
 @Component({
   selector: 'app-men',
   standalone: true,
-  imports: [
-    Navbar,
-    Footer
-  ],
+  imports: [Navbar, Footer],
   templateUrl: './men.html',
-  styleUrl: './men.scss'
+  styleUrl: './men.scss',
 })
 export class Men {
   searchText = '';
   selectedCategory = 'All';
+  sortOption: SortOption = 'default';
 
   subcategories: string[] = [
     'Shirts',
@@ -37,7 +39,7 @@ export class Men {
     'Suits',
     'Shoes',
     'Bags',
-    'Accessories'
+    'Accessories',
   ];
 
   products: MenProduct[] = [
@@ -48,7 +50,7 @@ export class Men {
       price: 39.99,
       image: '/images/men/product-1.jpg',
       section: 'featured',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 2,
@@ -57,7 +59,7 @@ export class Men {
       price: 24.99,
       image: '/images/men/product-2.jpg',
       section: 'featured',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 3,
@@ -67,7 +69,7 @@ export class Men {
       oldPrice: 89.99,
       image: '/images/men/product-3.jpg',
       section: 'featured',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 4,
@@ -76,7 +78,7 @@ export class Men {
       price: 49.99,
       image: '/images/men/product-4.jpg',
       section: 'featured',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 5,
@@ -85,7 +87,7 @@ export class Men {
       price: 46.99,
       image: '/images/men/product-5.jpg',
       section: 'new',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 6,
@@ -94,7 +96,7 @@ export class Men {
       price: 54.99,
       image: '/images/men/product-6.jpg',
       section: 'new',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 7,
@@ -103,7 +105,7 @@ export class Men {
       price: 69.99,
       image: '/images/men/product-7.jpg',
       section: 'new',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 8,
@@ -112,7 +114,7 @@ export class Men {
       price: 64.99,
       image: '/images/men/product-8.jpg',
       section: 'new',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 9,
@@ -121,7 +123,7 @@ export class Men {
       price: 89.99,
       image: '/images/men/product-9.jpg',
       section: 'recommended',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 10,
@@ -130,7 +132,7 @@ export class Men {
       price: 78.99,
       image: '/images/men/product-10.jpg',
       section: 'recommended',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 11,
@@ -139,7 +141,7 @@ export class Men {
       price: 72.99,
       image: '/images/men/product-11.jpg',
       section: 'recommended',
-      isFavorite: false
+      isFavorite: false,
     },
     {
       id: 12,
@@ -148,10 +150,11 @@ export class Men {
       price: 58.99,
       image: '/images/men/product-12.jpg',
       section: 'recommended',
-      isFavorite: false
-    }
+      isFavorite: false,
+    },
   ];
 
+  // eslint-disable-next-line @angular-eslint/prefer-inject
   constructor(private router: Router) {}
 
   get featuredProducts(): MenProduct[] {
@@ -174,6 +177,12 @@ export class Men {
     this.selectedCategory = category;
   }
 
+  updateSort(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+
+    this.sortOption = selectElement.value as SortOption;
+  }
+
   toggleFavorite(product: MenProduct): void {
     product.isFavorite = !product.isFavorite;
   }
@@ -182,26 +191,50 @@ export class Men {
     this.router.navigate(['/login']);
   }
 
-  private filterProducts(
-    section: MenProduct['section']
-  ): MenProduct[] {
-    return this.products.filter((product) => {
+  private filterProducts(section: MenSection): MenProduct[] {
+    const filteredProducts = this.products.filter((product) => {
       const matchesSection = product.section === section;
 
       const matchesCategory =
-        this.selectedCategory === 'All' ||
-        product.category === this.selectedCategory;
+        this.selectedCategory === 'All' || product.category === this.selectedCategory;
 
       const matchesSearch =
         !this.searchText ||
         product.name.toLowerCase().includes(this.searchText) ||
         product.category.toLowerCase().includes(this.searchText);
 
-      return (
-        matchesSection &&
-        matchesCategory &&
-        matchesSearch
-      );
+      return matchesSection && matchesCategory && matchesSearch;
     });
+
+    return this.sortProducts(filteredProducts);
+  }
+
+  private sortProducts(products: MenProduct[]): MenProduct[] {
+    const sortedProducts = [...products];
+
+    switch (this.sortOption) {
+      case 'price-low-high':
+        return sortedProducts.sort(
+          (firstProduct, secondProduct) => firstProduct.price - secondProduct.price,
+        );
+
+      case 'price-high-low':
+        return sortedProducts.sort(
+          (firstProduct, secondProduct) => secondProduct.price - firstProduct.price,
+        );
+
+      case 'name-a-z':
+        return sortedProducts.sort((firstProduct, secondProduct) =>
+          firstProduct.name.localeCompare(secondProduct.name),
+        );
+
+      case 'name-z-a':
+        return sortedProducts.sort((firstProduct, secondProduct) =>
+          secondProduct.name.localeCompare(firstProduct.name),
+        );
+
+      default:
+        return sortedProducts;
+    }
   }
 }
