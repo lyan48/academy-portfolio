@@ -1,0 +1,177 @@
+<div class="orders-page">
+  <app-navbar></app-navbar>
+
+  <main>
+    <section class="orders-header">
+      <p>YOUR ACCOUNT</p>
+
+      <h1>My orders</h1>
+
+      <span> Review your previous purchases and follow their current status. </span>
+    </section>
+
+    @if (orders().length > 0) {
+    <section class="orders-section">
+      <div class="orders-summary">
+        <div>
+          <strong>{{ orders().length }}</strong>
+          <span>Total orders</span>
+        </div>
+
+        <div>
+          <strong> {{ orders()[0].createdAt | date: 'MMM d, y' }} </strong>
+          <span>Latest order</span>
+        </div>
+      </div>
+
+      <div class="orders-list">
+        @for (order of orders(); track order.id) {
+        <article class="order-card">
+          <div class="order-top">
+            <div>
+              <p>Order number</p>
+              <h2>{{ order.id }}</h2>
+            </div>
+
+            <span class="status-badge" [class]="getStatusClass(order.status)">
+              {{ order.status }}
+            </span>
+          </div>
+
+          <div class="order-information">
+            <div>
+              <span>Placed on</span>
+              <strong> {{ order.createdAt | date: 'MMMM d, y' }} </strong>
+            </div>
+
+            <div>
+              <span>Items</span>
+              <strong>{{ order.items.length }}</strong>
+            </div>
+
+            <div>
+              <span>Delivery</span>
+              <strong>{{ getDeliveryLabel(order) }}</strong>
+            </div>
+
+            <div>
+              <span>Total</span>
+              <strong>{{ order.total | currency: 'USD' }}</strong>
+            </div>
+          </div>
+
+          <div class="order-products-preview">
+            @for ( item of order.items.slice(0, 4); track item.product.source + '-' +
+            item.product.id ) {
+            <div class="preview-image">
+              <img [src]="item.product.image" [alt]="item.product.name" />
+
+              <span>{{ item.quantity }}</span>
+            </div>
+            } @if (order.items.length > 4) {
+            <div class="more-products">+{{ order.items.length - 4 }}</div>
+            }
+          </div>
+
+          <button class="details-button" type="button" (click)="toggleOrderDetails(order.id)">
+            {{ isSelected(order) ? 'Hide details' : 'View details' }}
+          </button>
+
+          @if (isSelected(order)) {
+          <div class="order-details">
+            <div class="details-heading">
+              <div>
+                <p>ORDER DETAILS</p>
+                <h3>{{ order.id }}</h3>
+              </div>
+
+              <span class="status-badge" [class]="getStatusClass(order.status)">
+                {{ order.status }}
+              </span>
+            </div>
+
+            <div class="details-products">
+              @for ( item of order.items; track item.product.source + '-' + item.product.id ) {
+              <article class="details-product">
+                <img [src]="item.product.image" [alt]="item.product.name" />
+
+                <div>
+                  <p>{{ item.product.category }}</p>
+                  <h4>{{ item.product.name }}</h4>
+
+                  <span> Quantity: {{ item.quantity }} </span>
+                </div>
+
+                <strong> {{ item.product.price * item.quantity | currency: 'USD' }} </strong>
+              </article>
+              }
+            </div>
+
+            <div class="details-grid">
+              <section>
+                <h4>Delivery information</h4>
+
+                <p>{{ order.customer.firstName }} {{ order.customer.lastName }}</p>
+
+                <p>{{ order.customer.address }}</p>
+
+                <p>{{ order.customer.city }}, {{ order.customer.country }}</p>
+
+                <p>{{ order.customer.phone }}</p>
+              </section>
+
+              <section>
+                <h4>Order information</h4>
+
+                <p>{{ getDeliveryLabel(order) }}</p>
+
+                <p>{{ getPaymentLabel(order) }}</p>
+
+                <p>
+                  Status:
+                  <strong>{{ order.status }}</strong>
+                </p>
+              </section>
+            </div>
+
+            <div class="details-total">
+              <div>
+                <span>Subtotal</span>
+                <strong> {{ order.subtotal | currency: 'USD' }} </strong>
+              </div>
+
+              <div>
+                <span>Shipping</span>
+
+                <strong>
+                  @if (order.shippingCost === 0) { Free } @else { {{ order.shippingCost | currency:
+                  'USD' }} }
+                </strong>
+              </div>
+
+              <div class="final-total">
+                <span>Total</span>
+                <strong>{{ order.total | currency: 'USD' }}</strong>
+              </div>
+            </div>
+          </div>
+          }
+        </article>
+        }
+      </div>
+    </section>
+    } @else {
+    <section class="empty-orders">
+      <div>□</div>
+
+      <h2>You have no orders yet</h2>
+
+      <p>Products you purchase through Checkout will appear here.</p>
+
+      <a routerLink="/shop">Start shopping</a>
+    </section>
+    }
+  </main>
+
+  <app-footer></app-footer>
+</div>
