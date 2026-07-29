@@ -6,6 +6,7 @@ import { Footer } from '../../../shared/components/footer/footer';
 import { Navbar } from '../../../shared/components/navbar/navbar';
 import { CartProduct } from '../../../core/models/cart-item.model';
 import { CartService } from '../../../core/services/cart.service';
+import { Router } from '@angular/router';
 
 type JewelrySection = 'featured' | 'new' | 'recommended';
 
@@ -32,6 +33,7 @@ interface JewelryProduct {
 export class Jewelry {
   private readonly favoritesService = inject(FavoritesService);
   private readonly cartService = inject(CartService);
+  private readonly router = inject(Router);
 
   searchText = '';
   selectedCategory = 'All';
@@ -204,6 +206,10 @@ export class Jewelry {
       behavior: 'smooth',
       block: 'start',
     });
+  }
+
+  openProduct(product: JewelryProduct): void {
+    this.router.navigate(['/product', 'jewelry', product.id]);
   }
 
   addToCart(product: JewelryProduct): void {

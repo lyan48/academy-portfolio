@@ -73,13 +73,9 @@
             aria-label="Sort jewelry products"
           >
             <option value="default">Featured</option>
-
             <option value="price-low-high">Price: Low to High</option>
-
             <option value="price-high-low">Price: High to Low</option>
-
             <option value="name-a-z">Name: A to Z</option>
-
             <option value="name-z-a">Name: Z to A</option>
           </select>
         </label>
@@ -93,28 +89,37 @@
           <h2>Timeless favorites</h2>
         </div>
 
-        <span> Elegant pieces selected to complete every look. </span>
+        <span>Elegant pieces selected to complete every look.</span>
       </div>
 
       @if (featuredProducts.length > 0) {
       <div class="products-grid">
         @for (product of featuredProducts; track product.id) {
         <article class="product-card">
-          <div class="product-image">
+          <div
+            class="product-image"
+            tabindex="0"
+            role="link"
+            (click)="openProduct(product)"
+            (keydown.enter)="openProduct(product)"
+          >
             <img [src]="product.image" [alt]="product.name" />
 
             <button
               class="favorite-button"
               type="button"
               [class.active]="product.isFavorite"
-              (click)="toggleFavorite(product)"
+              (click)="
+                    $event.stopPropagation();
+                    toggleFavorite(product)
+                  "
               aria-label="Add jewelry item to favorites"
             >
               {{ product.isFavorite ? '♥' : '♡' }}
             </button>
 
             @if (product.oldPrice) {
-            <span class="sale-label"> Sale </span>
+            <span class="sale-label">Sale</span>
             }
           </div>
 
@@ -170,21 +175,30 @@
           <h2>New arrivals</h2>
         </div>
 
-        <span> The newest additions to the jewelry collection. </span>
+        <span>The newest additions to the jewelry collection.</span>
       </div>
 
       @if (newProducts.length > 0) {
       <div class="products-grid">
         @for (product of newProducts; track product.id) {
         <article class="product-card">
-          <div class="product-image">
+          <div
+            class="product-image"
+            tabindex="0"
+            role="link"
+            (click)="openProduct(product)"
+            (keydown.enter)="openProduct(product)"
+          >
             <img [src]="product.image" [alt]="product.name" />
 
             <button
               class="favorite-button"
               type="button"
               [class.active]="product.isFavorite"
-              (click)="toggleFavorite(product)"
+              (click)="
+                    $event.stopPropagation();
+                    toggleFavorite(product)
+                  "
               aria-label="Add jewelry item to favorites"
             >
               {{ product.isFavorite ? '♥' : '♡' }}
@@ -248,21 +262,30 @@
           <h2>Recommended items</h2>
         </div>
 
-        <span> Complete your collection with these selected pieces. </span>
+        <span>Complete your collection with these selected pieces.</span>
       </div>
 
       @if (recommendedProducts.length > 0) {
       <div class="products-grid">
         @for (product of recommendedProducts; track product.id) {
         <article class="product-card">
-          <div class="product-image">
+          <div
+            class="product-image"
+            tabindex="0"
+            role="link"
+            (click)="openProduct(product)"
+            (keydown.enter)="openProduct(product)"
+          >
             <img [src]="product.image" [alt]="product.name" />
 
             <button
               class="favorite-button"
               type="button"
               [class.active]="product.isFavorite"
-              (click)="toggleFavorite(product)"
+              (click)="
+                    $event.stopPropagation();
+                    toggleFavorite(product)
+                  "
               aria-label="Add jewelry item to favorites"
             >
               {{ product.isFavorite ? '♥' : '♡' }}

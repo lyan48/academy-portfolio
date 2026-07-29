@@ -1,0 +1,302 @@
+<div class="product-details-page">
+  <app-navbar></app-navbar>
+
+  <main>
+    @if (product(); as currentProduct) {
+    <section class="product-main">
+      <div class="breadcrumb">
+        <a routerLink="/home"> Home </a>
+
+        <span>/</span>
+
+        <a routerLink="/shop"> Shop </a>
+
+        <span>/</span>
+
+        <button type="button" (click)="returnToCollection()">{{ currentProduct.source }}</button>
+
+        <span>/</span>
+
+        <strong> {{ currentProduct.name }} </strong>
+      </div>
+
+      <div class="product-layout">
+        <div class="product-gallery">
+          <div class="main-image">
+            <img [src]="currentProduct.image" [alt]="currentProduct.name" />
+
+            @if (currentProduct.oldPrice) {
+            <span class="sale-badge"> Sale </span>
+            }
+          </div>
+        </div>
+
+        <div class="product-information">
+          <p class="product-category">{{ currentProduct.category }}</p>
+
+          <h1>{{ currentProduct.name }}</h1>
+
+          <div class="rating">
+            <span>★★★★★</span>
+
+            <p>{{ currentProduct.rating }} ({{ currentProduct.reviewCount }} reviews)</p>
+          </div>
+
+          <div class="product-price">
+            <strong> {{ currentProduct.price | currency: 'USD' }} </strong>
+
+            @if (currentProduct.oldPrice) {
+            <span> {{ currentProduct.oldPrice | currency: 'USD' }} </span>
+            }
+          </div>
+
+          <p class="short-description">{{ currentProduct.description }}</p>
+
+          @if (currentProduct.sizes.length > 0) {
+          <div class="option-section">
+            <div class="option-heading">
+              <strong>
+                {{ currentProduct.source === 'electronics' ? 'Select option' : 'Select size' }}
+              </strong>
+
+              <span> Selected: {{ selectedOption() }} </span>
+            </div>
+
+            <div class="option-buttons">
+              @for ( option of currentProduct.sizes; track option ) {
+              <button
+                type="button"
+                [class.active]="
+                        selectedOption() === option
+                      "
+                (click)="selectOption(option)"
+              >
+                {{ option }}
+              </button>
+              }
+            </div>
+          </div>
+          }
+
+          <div class="quantity-section">
+            <strong>Quantity</strong>
+
+            <div class="quantity-control">
+              <button type="button" (click)="decreaseQuantity()" aria-label="Decrease quantity">
+                −
+              </button>
+
+              <span> {{ quantity() }} </span>
+
+              <button type="button" (click)="increaseQuantity()" aria-label="Increase quantity">
+                +
+              </button>
+            </div>
+          </div>
+
+          <div class="product-actions">
+            <button class="cart-button" type="button" (click)="addToCart()">
+              Add {{ quantity() }} to cart
+            </button>
+
+            <button
+              class="favorite-button"
+              type="button"
+              [class.active]="isFavorite()"
+              (click)="toggleFavorite()"
+              aria-label="Add product to favorites"
+            >
+              {{ isFavorite() ? '♥' : '♡' }}
+            </button>
+          </div>
+
+          <div class="product-benefits">
+            <article>
+              <span>✓</span>
+
+              <div>
+                <strong>Secure checkout</strong>
+
+                <p>Protected payment process</p>
+              </div>
+            </article>
+
+            <article>
+              <span>↺</span>
+
+              <div>
+                <strong>Easy returns</strong>
+
+                <p>Return within 14 days</p>
+              </div>
+            </article>
+
+            <article>
+              <span>🚚</span>
+
+              <div>
+                <strong>Free delivery</strong>
+
+                <p>On orders over $70</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="related-section">
+      <div class="section-heading">
+        <div>
+          <p>STYLE IT TOGETHER</p>
+
+          <h2>Complete your look</h2>
+        </div>
+
+        <span> Products selected to complement your choice. </span>
+      </div>
+
+      <div class="related-grid">
+        @for ( relatedProduct of relatedProducts(); track relatedProduct.id ) {
+        <article
+          class="related-card"
+          tabindex="0"
+          role="link"
+          (click)="
+                openRelatedProduct(relatedProduct)
+              "
+          (keydown.enter)="
+                openRelatedProduct(relatedProduct)
+              "
+        >
+          <div class="related-image">
+            <img [src]="relatedProduct.image" [alt]="relatedProduct.name" />
+          </div>
+
+          <div class="related-information">
+            <p>{{ relatedProduct.category }}</p>
+
+            <h3>{{ relatedProduct.name }}</h3>
+
+            <strong> {{ relatedProduct.price | currency: 'USD' }} </strong>
+          </div>
+        </article>
+        }
+      </div>
+    </section>
+
+    <section class="product-tabs">
+      <div class="tab-buttons">
+        <button
+          type="button"
+          [class.active]="
+              activeTab() === 'description'
+            "
+          (click)="setActiveTab('description')"
+        >
+          Description
+        </button>
+
+        <button
+          type="button"
+          [class.active]="
+              activeTab() === 'details'
+            "
+          (click)="setActiveTab('details')"
+        >
+          Product details
+        </button>
+
+        <button
+          type="button"
+          [class.active]="
+              activeTab() === 'delivery'
+            "
+          (click)="setActiveTab('delivery')"
+        >
+          Delivery & returns
+        </button>
+
+        <button
+          type="button"
+          [class.active]="
+              activeTab() === 'reviews'
+            "
+          (click)="setActiveTab('reviews')"
+        >
+          Reviews ({{ currentProduct.reviewCount }})
+        </button>
+      </div>
+
+      <div class="tab-content">
+        @if (activeTab() === 'description') {
+        <div>
+          <h2>About this product</h2>
+
+          <p>{{ currentProduct.description }}</p>
+        </div>
+        } @if (activeTab() === 'details') {
+        <div>
+          <h2>Product information</h2>
+
+          <ul>
+            @for ( detail of currentProduct.details; track detail ) {
+            <li>{{ detail }}</li>
+            }
+          </ul>
+        </div>
+        } @if (activeTab() === 'delivery') {
+        <div>
+          <h2>Delivery and returns</h2>
+
+          <p>
+            Standard delivery is available on all Trendify orders. Orders above $70 receive free
+            delivery.
+          </p>
+
+          <p>
+            Products can be returned within 14 days when they are unused and remain in their
+            original condition.
+          </p>
+        </div>
+        } @if (activeTab() === 'reviews') {
+        <div class="reviews-content">
+          <div class="reviews-summary">
+            <strong> {{ currentProduct.rating }} </strong>
+
+            <div>
+              <span>★★★★★</span>
+
+              <p>Based on {{ currentProduct.reviewCount }} written reviews</p>
+            </div>
+          </div>
+
+          <div class="reviews-list">
+            @for ( review of currentProduct.reviews; track review.id ) {
+            <article class="review-card">
+              <div class="review-heading">
+                <div>
+                  <strong> {{ review.author }} </strong>
+
+                  <span>
+                    @for ( star of [1, 2, 3, 4, 5]; track star ) { {{ star <= review.rating ? '★' :
+                    '☆' }} }
+                  </span>
+                </div>
+
+                <time> {{ review.date }} </time>
+              </div>
+
+              <p>{{ review.comment }}</p>
+            </article>
+            }
+          </div>
+        </div>
+        }
+      </div>
+    </section>
+    }
+  </main>
+
+  <app-footer></app-footer>
+</div>

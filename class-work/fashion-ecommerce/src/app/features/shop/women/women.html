@@ -42,7 +42,7 @@
           All
         </button>
 
-        @for ( category of subcategories; track category ) {
+        @for (category of subcategories; track category) {
         <button
           type="button"
           [class.active]="selectedCategory === category"
@@ -68,13 +68,9 @@
 
           <select [value]="sortOption" (change)="updateSort($event)" aria-label="Sort products">
             <option value="default">Featured</option>
-
             <option value="price-low-high">Price: Low to High</option>
-
             <option value="price-high-low">Price: High to Low</option>
-
             <option value="name-a-z">Name: A to Z</option>
-
             <option value="name-z-a">Name: Z to A</option>
           </select>
         </label>
@@ -85,32 +81,40 @@
       <div class="section-heading">
         <div>
           <p>FEATURED COLLECTION</p>
-
           <h2>Women’s favorites</h2>
         </div>
 
-        <span> Modern pieces chosen for everyday style. </span>
+        <span>Modern pieces chosen for everyday style.</span>
       </div>
 
       @if (featuredProducts.length > 0) {
       <div class="products-grid">
-        @for ( product of featuredProducts; track product.id ) {
+        @for (product of featuredProducts; track product.id) {
         <article class="product-card">
-          <div class="product-image">
+          <div
+            class="product-image"
+            tabindex="0"
+            role="link"
+            (click)="openProduct(product)"
+            (keydown.enter)="openProduct(product)"
+          >
             <img [src]="product.image" [alt]="product.name" />
 
             <button
               class="favorite-button"
               type="button"
               [class.active]="product.isFavorite"
-              (click)="toggleFavorite(product)"
+              (click)="
+                    $event.stopPropagation();
+                    toggleFavorite(product)
+                  "
               aria-label="Add to favorites"
             >
               {{ product.isFavorite ? '♥' : '♡' }}
             </button>
 
             @if (product.oldPrice) {
-            <span class="sale-label"> Sale </span>
+            <span class="sale-label">Sale</span>
             }
           </div>
 
@@ -120,10 +124,10 @@
             <h3>{{ product.name }}</h3>
 
             <div class="price">
-              <strong> ${{ product.price }} </strong>
+              <strong>${{ product.price }}</strong>
 
               @if (product.oldPrice) {
-              <span> ${{ product.oldPrice }} </span>
+              <span>${{ product.oldPrice }}</span>
               }
             </div>
 
@@ -160,25 +164,33 @@
       <div class="section-heading">
         <div>
           <p>JUST ARRIVED</p>
-
           <h2>New arrivals</h2>
         </div>
 
-        <span> The newest pieces in the women’s collection. </span>
+        <span>The newest pieces in the women’s collection.</span>
       </div>
 
       @if (newProducts.length > 0) {
       <div class="products-grid">
-        @for ( product of newProducts; track product.id ) {
+        @for (product of newProducts; track product.id) {
         <article class="product-card">
-          <div class="product-image">
+          <div
+            class="product-image"
+            tabindex="0"
+            role="link"
+            (click)="openProduct(product)"
+            (keydown.enter)="openProduct(product)"
+          >
             <img [src]="product.image" [alt]="product.name" />
 
             <button
               class="favorite-button"
               type="button"
               [class.active]="product.isFavorite"
-              (click)="toggleFavorite(product)"
+              (click)="
+                    $event.stopPropagation();
+                    toggleFavorite(product)
+                  "
               aria-label="Add to favorites"
             >
               {{ product.isFavorite ? '♥' : '♡' }}
@@ -191,7 +203,7 @@
             <h3>{{ product.name }}</h3>
 
             <div class="price">
-              <strong> ${{ product.price }} </strong>
+              <strong>${{ product.price }}</strong>
             </div>
 
             <button class="add-cart-button" type="button" (click)="addToCart(product)">
@@ -237,25 +249,33 @@
       <div class="section-heading">
         <div>
           <p>SELECTED FOR YOU</p>
-
           <h2>Recommended items</h2>
         </div>
 
-        <span> Complete your look with these selected pieces. </span>
+        <span>Complete your look with these selected pieces.</span>
       </div>
 
       @if (recommendedProducts.length > 0) {
       <div class="products-grid">
-        @for ( product of recommendedProducts; track product.id ) {
+        @for (product of recommendedProducts; track product.id) {
         <article class="product-card">
-          <div class="product-image">
+          <div
+            class="product-image"
+            tabindex="0"
+            role="link"
+            (click)="openProduct(product)"
+            (keydown.enter)="openProduct(product)"
+          >
             <img [src]="product.image" [alt]="product.name" />
 
             <button
               class="favorite-button"
               type="button"
               [class.active]="product.isFavorite"
-              (click)="toggleFavorite(product)"
+              (click)="
+                    $event.stopPropagation();
+                    toggleFavorite(product)
+                  "
               aria-label="Add to favorites"
             >
               {{ product.isFavorite ? '♥' : '♡' }}
@@ -268,7 +288,7 @@
             <h3>{{ product.name }}</h3>
 
             <div class="price">
-              <strong> ${{ product.price }} </strong>
+              <strong>${{ product.price }}</strong>
             </div>
 
             <button class="add-cart-button" type="button" (click)="addToCart(product)">

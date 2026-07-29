@@ -13,6 +13,7 @@ import { Jewelry } from './features/shop/jewelry/jewelry';
 import { Favorites } from './features/favorites/favorites';
 import { Electronics } from './features/shop/electronics/electronics';
 import { Cart } from './features/cart/cart';
+import { ProductDetails } from './features/product-details/product-details';
 
 export const routes: Routes = [
   {
@@ -67,6 +68,10 @@ export const routes: Routes = [
   {
     path: 'unauthorized',
     component: Unauthorized,
+  },
+  {
+    path: 'product/:source/:id',
+    component: ProductDetails,
   },
 
   // This route must always stay last.

@@ -68,13 +68,9 @@
 
           <select [value]="sortOption" (change)="updateSort($event)" aria-label="Sort products">
             <option value="default">Featured</option>
-
             <option value="price-low-high">Price: Low to High</option>
-
             <option value="price-high-low">Price: High to Low</option>
-
             <option value="name-a-z">Name: A to Z</option>
-
             <option value="name-z-a">Name: Z to A</option>
           </select>
         </label>
@@ -88,21 +84,30 @@
           <h2>Men’s essentials</h2>
         </div>
 
-        <span> Versatile pieces selected for modern everyday style. </span>
+        <span>Versatile pieces selected for modern everyday style.</span>
       </div>
 
       @if (featuredProducts.length > 0) {
       <div class="products-grid">
         @for (product of featuredProducts; track product.id) {
         <article class="product-card">
-          <div class="product-image">
+          <div
+            class="product-image"
+            tabindex="0"
+            role="link"
+            (click)="openProduct(product)"
+            (keydown.enter)="openProduct(product)"
+          >
             <img [src]="product.image" [alt]="product.name" />
 
             <button
               class="favorite-button"
               type="button"
               [class.active]="product.isFavorite"
-              (click)="toggleFavorite(product)"
+              (click)="
+                    $event.stopPropagation();
+                    toggleFavorite(product)
+                  "
               aria-label="Add to favorites"
             >
               {{ product.isFavorite ? '♥' : '♡' }}
@@ -162,21 +167,30 @@
           <h2>New arrivals</h2>
         </div>
 
-        <span> The latest additions to the Men’s collection. </span>
+        <span>The latest additions to the Men’s collection.</span>
       </div>
 
       @if (newProducts.length > 0) {
       <div class="products-grid">
         @for (product of newProducts; track product.id) {
         <article class="product-card">
-          <div class="product-image">
+          <div
+            class="product-image"
+            tabindex="0"
+            role="link"
+            (click)="openProduct(product)"
+            (keydown.enter)="openProduct(product)"
+          >
             <img [src]="product.image" [alt]="product.name" />
 
             <button
               class="favorite-button"
               type="button"
               [class.active]="product.isFavorite"
-              (click)="toggleFavorite(product)"
+              (click)="
+                    $event.stopPropagation();
+                    toggleFavorite(product)
+                  "
               aria-label="Add to favorites"
             >
               {{ product.isFavorite ? '♥' : '♡' }}
@@ -237,21 +251,30 @@
           <h2>Recommended items</h2>
         </div>
 
-        <span> Finish your look with these selected pieces. </span>
+        <span>Finish your look with these selected pieces.</span>
       </div>
 
       @if (recommendedProducts.length > 0) {
       <div class="products-grid">
         @for (product of recommendedProducts; track product.id) {
         <article class="product-card">
-          <div class="product-image">
+          <div
+            class="product-image"
+            tabindex="0"
+            role="link"
+            (click)="openProduct(product)"
+            (keydown.enter)="openProduct(product)"
+          >
             <img [src]="product.image" [alt]="product.name" />
 
             <button
               class="favorite-button"
               type="button"
               [class.active]="product.isFavorite"
-              (click)="toggleFavorite(product)"
+              (click)="
+                    $event.stopPropagation();
+                    toggleFavorite(product)
+                  "
               aria-label="Add to favorites"
             >
               {{ product.isFavorite ? '♥' : '♡' }}

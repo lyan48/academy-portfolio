@@ -6,6 +6,7 @@ import { Footer } from '../../../shared/components/footer/footer';
 import { Navbar } from '../../../shared/components/navbar/navbar';
 import { CartProduct } from '../../../core/models/cart-item.model';
 import { CartService } from '../../../core/services/cart.service';
+import { Router } from '@angular/router';
 
 type ElectronicsSection = 'featured' | 'new' | 'recommended';
 
@@ -33,6 +34,7 @@ export class Electronics {
   private readonly favoritesService = inject(FavoritesService);
 
   private readonly cartService = inject(CartService);
+  private readonly router = inject(Router);
 
   searchText = '';
   selectedCategory = 'All';
@@ -206,6 +208,10 @@ export class Electronics {
       behavior: 'smooth',
       block: 'start',
     });
+  }
+
+  openProduct(product: ElectronicsProduct): void {
+    this.router.navigate(['/product', 'electronics', product.id]);
   }
 
   addToCart(product: ElectronicsProduct): void {

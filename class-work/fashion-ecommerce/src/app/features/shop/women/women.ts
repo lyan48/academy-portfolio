@@ -222,6 +222,10 @@ export class Women {
     this.cartService.addToCart(cartProduct);
   }
 
+  openProduct(product: WomenProduct): void {
+    this.router.navigate(['/product', 'women', product.id]);
+  }
+
   logout(): void {
     this.router.navigate(['/login']);
   }
