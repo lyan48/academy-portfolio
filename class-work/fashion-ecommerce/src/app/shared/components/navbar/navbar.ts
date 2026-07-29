@@ -2,8 +2,8 @@ import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 import { AuthService } from '../../../core/services/auth';
-import { GuestSessionService } from '../../../core/services/guest-session';
 import { CartService } from '../../../core/services/cart.service';
+import { GuestSessionService } from '../../../core/services/guest-session';
 
 @Component({
   selector: 'app-navbar',
@@ -15,8 +15,11 @@ import { CartService } from '../../../core/services/cart.service';
 export class Navbar {
   private readonly authService = inject(AuthService);
   private readonly guestSessionService = inject(GuestSessionService);
+  private readonly cartService = inject(CartService);
   private readonly router = inject(Router);
+
   readonly currentUser = this.authService.currentUser;
+  readonly cartCount = this.cartService.totalQuantity;
 
   @Output() searchChanged = new EventEmitter<string>();
 
@@ -25,10 +28,6 @@ export class Navbar {
 
     this.searchChanged.emit(input.value);
   }
-
-  private readonly cartService = inject(CartService);
-
-  readonly cartCount = this.cartService.totalQuantity;
 
   logout(): void {
     this.authService.logout();

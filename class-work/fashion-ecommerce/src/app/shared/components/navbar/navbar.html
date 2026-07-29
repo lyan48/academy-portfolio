@@ -1,14 +1,4 @@
 <header class="site-header">
-  <div class="announcement-bar">
-    <p>Free delivery on orders over $70</p>
-
-    <div class="announcement-links">
-      <button type="button">Help</button>
-
-      <button type="button">Track Order</button>
-    </div>
-  </div>
-
   <nav class="navbar">
     <a class="logo" routerLink="/home" aria-label="Trendify home page"> TRENDIFY </a>
 
@@ -22,13 +12,11 @@
       </a>
 
       <a routerLink="/shop" routerLinkActive="active-link"> Shop </a>
-
-      <a routerLink="/contact" routerLinkActive="active-link"> Contact Us </a>
     </div>
 
     <div class="navbar-actions">
       <label class="search-box">
-        <span class="search-symbol"> &#128269; </span>
+        <span class="search-symbol">⌕</span>
 
         <input
           type="search"
@@ -41,7 +29,7 @@
       <a
         class="action-button"
         routerLink="/profile"
-        routerLinkActive="active-link"
+        routerLinkActive="active-action"
         aria-label="Open profile"
       >
         &#128100;
@@ -50,19 +38,25 @@
       <a
         class="action-button favorite-nav-button"
         routerLink="/favorites"
+        routerLinkActive="active-action"
         aria-label="Open favorites"
       >
         ♡
       </a>
 
-      <a class="action-button cart-button" routerLink="/cart" aria-label="Open shopping cart">
+      <a
+        class="action-button cart-button"
+        routerLink="/cart"
+        routerLinkActive="active-action"
+        aria-label="Open shopping cart"
+      >
         &#128722; @if (cartCount() > 0) {
         <span class="cart-count"> {{ cartCount() }} </span>
         }
       </a>
 
       @if (currentUser()?.role === 'admin') {
-      <a class="admin-link" routerLink="/admin" routerLinkActive="active-link"> Admin </a>
+      <a class="admin-link" routerLink="/admin" routerLinkActive="active-admin-link"> Admin </a>
       }
 
       <button class="logout-button" type="button" (click)="logout()">Logout</button>
