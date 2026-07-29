@@ -1,39 +1,24 @@
 import { Component, inject } from '@angular/core';
-import {
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
-import {
-  ActivatedRoute,
-  Router,
-  RouterLink
-} from '@angular/router';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 
-import {
-  AuthService,
-  LoginResponse
-} from '../../../core/services/auth';
+import { AuthService, LoginResponse } from '../../../core/services/auth';
 import { GuestSessionService } from '../../../core/services/guest-session';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    RouterLink
-  ],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
-  styleUrl: './login.scss'
+  styleUrl: './login.scss',
 })
 export class Login {
   private readonly formBuilder = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly authService = inject(AuthService);
-  private readonly guestSessionService =
-    inject(GuestSessionService);
+  private readonly guestSessionService = inject(GuestSessionService);
 
   submitted = false;
   showPassword = false;
@@ -41,21 +26,9 @@ export class Login {
   loginError = '';
 
   readonly loginForm = this.formBuilder.group({
-    email: [
-      '',
-      [
-        Validators.required,
-        Validators.email
-      ]
-    ],
-    password: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(6)
-      ]
-    ],
-    rememberMe: [false]
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    rememberMe: [false],
   });
 
   get emailControl() {
@@ -87,8 +60,7 @@ export class Login {
 
     const email = this.loginForm.controls.email.value;
     const password = this.loginForm.controls.password.value;
-    const rememberMe =
-      this.loginForm.controls.rememberMe.value ?? false;
+    const rememberMe = this.loginForm.controls.rememberMe.value ?? false;
 
     if (!email || !password) {
       return;
@@ -100,14 +72,14 @@ export class Login {
       .login(
         {
           email,
-          password
+          password,
         },
-        rememberMe
+        rememberMe,
       )
       .pipe(
         finalize(() => {
           this.isLoading = false;
-        })
+        }),
       )
       .subscribe({
         next: (response: LoginResponse) => {
@@ -115,15 +87,9 @@ export class Login {
 
           this.guestSessionService.endGuestSession();
 
-          const returnUrl =
-            this.activatedRoute.snapshot.queryParamMap.get(
-              'returnUrl'
-            );
+          const returnUrl = this.activatedRoute.snapshot.queryParamMap.get('returnUrl');
 
-          const destination =
-            returnUrl?.startsWith('/')
-              ? returnUrl
-              : '/home';
+          const destination = returnUrl?.startsWith('/') ? returnUrl : '/home';
 
           this.router.navigateByUrl(destination);
         },
@@ -131,9 +97,8 @@ export class Login {
         error: (error: unknown) => {
           console.error('Login failed:', error);
 
-          this.loginError =
-            'The email or password is incorrect. Please try again.';
-        }
+          this.loginError = 'The email or password is incorrect. Please try again.';
+        },
       });
   }
 }

@@ -1,0 +1,186 @@
+<div class="profile-page">
+  <app-navbar></app-navbar>
+
+  <main>
+    @if (user(); as currentUser) {
+    <section class="profile-header">
+      <p>YOUR ACCOUNT</p>
+
+      <h1>My profile</h1>
+
+      <span> View and manage your personal account information. </span>
+    </section>
+
+    <section class="profile-layout">
+      <aside class="profile-sidebar">
+        <div class="avatar">{{ initials() }}</div>
+
+        <h2>{{ currentUser.firstName || 'Trendify' }} {{ currentUser.lastName || 'User' }}</h2>
+
+        <p>{{ currentUser.email }}</p>
+
+        <span class="role"> {{ currentUser.role || 'Customer' }} </span>
+
+        <nav>
+          <a routerLink="/profile" class="active"> Profile information </a>
+
+          <a routerLink="/orders"> My orders </a>
+
+          <a routerLink="/favorites"> Favorites </a>
+
+          <a routerLink="/cart"> Shopping cart </a>
+        </nav>
+
+        <button class="logout-button" type="button" (click)="logout()">Logout</button>
+      </aside>
+
+      <section class="profile-content">
+        <div class="content-heading">
+          <div>
+            <p>PERSONAL DETAILS</p>
+
+            <h2>Account information</h2>
+
+            <span> Keep your personal details up to date. </span>
+          </div>
+
+          @if (!isEditing()) {
+          <button class="edit-button" type="button" (click)="startEditing()">Edit profile</button>
+          }
+        </div>
+
+        @if (savedSuccessfully()) {
+        <div class="success-message">Your profile information was updated.</div>
+        }
+
+        <form [formGroup]="profileForm" (ngSubmit)="saveChanges()">
+          <div class="form-grid">
+            <label>
+              <span>First name</span>
+
+              <input type="text" formControlName="firstName" [readonly]="!isEditing()" />
+
+              @if ( profileForm.controls.firstName.touched && profileForm.controls.firstName.invalid
+              ) {
+              <small> Enter at least two characters. </small>
+              }
+            </label>
+
+            <label>
+              <span>Last name</span>
+
+              <input type="text" formControlName="lastName" [readonly]="!isEditing()" />
+
+              @if ( profileForm.controls.lastName.touched && profileForm.controls.lastName.invalid )
+              {
+              <small> Enter at least two characters. </small>
+              }
+            </label>
+
+            <label class="full-width">
+              <span>Email address</span>
+
+              <input type="email" formControlName="email" [readonly]="!isEditing()" />
+
+              @if ( profileForm.controls.email.touched && profileForm.controls.email.invalid ) {
+              <small> Enter a valid email address. </small>
+              }
+            </label>
+
+            <label>
+              <span>Username</span>
+
+              <input type="text" formControlName="username" [readonly]="!isEditing()" />
+            </label>
+
+            <label>
+              <span>Date of birth</span>
+
+              <input type="date" formControlName="dateOfBirth" [readonly]="!isEditing()" />
+            </label>
+
+            <label>
+              <span>Phone number</span>
+
+              <input
+                type="tel"
+                formControlName="phoneNumber"
+                [readonly]="!isEditing()"
+                placeholder="Not provided"
+              />
+
+              @if ( profileForm.controls.phoneNumber.touched &&
+              profileForm.controls.phoneNumber.invalid ) {
+              <small> Enter a valid phone number. </small>
+              }
+            </label>
+
+            <div class="form-field">
+              <label for="gender">Gender</label>
+
+              @if (isEditing()) {
+              <select id="gender" formControlName="gender">
+                <option value="">Not provided</option>
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
+                <option value="Other">Other</option>
+                <option value="Prefer not to say">Prefer not to say</option>
+              </select>
+              } @else {
+              <input
+                id="gender"
+                type="text"
+                formControlName="gender"
+                readonly
+                placeholder="Not provided"
+              />
+              }
+            </div>
+
+            <label class="full-width">
+              <span>Country</span>
+
+              <input
+                type="text"
+                formControlName="country"
+                [readonly]="!isEditing()"
+                placeholder="Not provided"
+              />
+            </label>
+          </div>
+
+          @if (isEditing()) {
+          <div class="form-actions">
+            <button class="cancel-button" type="button" (click)="cancelEditing()">Cancel</button>
+
+            <button class="save-button" type="submit">Save changes</button>
+          </div>
+          }
+        </form>
+
+        <section class="account-information">
+          <div>
+            <span>Account ID</span>
+            <strong> #{{ currentUser.id }} </strong>
+          </div>
+
+          <div>
+            <span>Account role</span>
+            <strong> {{ currentUser.role || 'user' }} </strong>
+          </div>
+        </section>
+      </section>
+    </section>
+    } @else {
+    <section class="missing-profile">
+      <h1>Profile unavailable</h1>
+
+      <p>Your account information could not be loaded. Please sign in again.</p>
+
+      <a routerLink="/login"> Return to login </a>
+    </section>
+    }
+  </main>
+
+  <app-footer></app-footer>
+</div>

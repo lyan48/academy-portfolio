@@ -17,6 +17,7 @@ import { Shop } from './features/shop/shop';
 import { Women } from './features/shop/women/women';
 import { Login } from './features/auth/login/login';
 import { Signup } from './features/auth/signup/signup';
+import { Profile } from './features/profile/profile';
 
 export const routes: Routes = [
   {
@@ -90,6 +91,11 @@ export const routes: Routes = [
   {
     path: 'unauthorized',
     component: Unauthorized,
+  },
+  {
+    path: 'profile',
+    component: Profile,
+    canActivate: [authGuard],
   },
 
   // This route must always stay last.
