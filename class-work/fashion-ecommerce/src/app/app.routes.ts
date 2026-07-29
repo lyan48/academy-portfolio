@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-
+import { authGuard } from './core/guards/auth.guard';
 import { browseGuard } from './core/guards/browse.guard';
 import { Login } from './features/auth/login/login';
 import { Signup } from './features/auth/signup/signup';
@@ -14,6 +14,7 @@ import { Favorites } from './features/favorites/favorites';
 import { Electronics } from './features/shop/electronics/electronics';
 import { Cart } from './features/cart/cart';
 import { ProductDetails } from './features/product-details/product-details';
+import { Checkout } from './features/checkout/checkout';
 
 export const routes: Routes = [
   {
@@ -72,6 +73,11 @@ export const routes: Routes = [
   {
     path: 'product/:source/:id',
     component: ProductDetails,
+  },
+  {
+    path: 'checkout',
+    component: Checkout,
+    canActivate: [authGuard],
   },
 
   // This route must always stay last.

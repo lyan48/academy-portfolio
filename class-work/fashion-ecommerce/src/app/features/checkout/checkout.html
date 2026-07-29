@@ -1,0 +1,367 @@
+<div class="checkout-page">
+  <app-navbar></app-navbar>
+
+  <main>
+    @if (orderPlaced()) {
+    <section class="success-section">
+      <div class="success-icon">✓</div>
+
+      <p>ORDER CONFIRMED</p>
+
+      <h1>Thank you for your order</h1>
+
+      <span> Your order has been successfully created and is now being processed. </span>
+
+      <div class="order-number">
+        <small>Order number</small>
+        <strong>{{ createdOrderId() }}</strong>
+      </div>
+
+      <button type="button" (click)="returnToShop()">Continue shopping</button>
+    </section>
+    } @else {
+    <section class="checkout-header">
+      <p>SECURE CHECKOUT</p>
+
+      <h1>Complete your order</h1>
+
+      <span> Enter your delivery and payment information to place your order. </span>
+    </section>
+
+    @if (cartItems().length > 0) {
+    <form class="checkout-layout" [formGroup]="checkoutForm" (ngSubmit)="placeOrder()">
+      <div class="checkout-form">
+        <section class="checkout-card">
+          <div class="card-heading">
+            <span>1</span>
+
+            <div>
+              <h2>Contact information</h2>
+              <p>We will send your order confirmation here.</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <label>
+              <span>First name</span>
+
+              <input type="text" formControlName="firstName" placeholder="Enter your first name" />
+
+              @if ( checkoutForm.controls.firstName.touched &&
+              checkoutForm.controls.firstName.invalid ) {
+              <small>Please enter your first name.</small>
+              }
+            </label>
+
+            <label>
+              <span>Last name</span>
+
+              <input type="text" formControlName="lastName" placeholder="Enter your last name" />
+
+              @if ( checkoutForm.controls.lastName.touched && checkoutForm.controls.lastName.invalid
+              ) {
+              <small>Please enter your last name.</small>
+              }
+            </label>
+
+            <label>
+              <span>Email</span>
+
+              <input type="email" formControlName="email" placeholder="name@example.com" />
+
+              @if ( checkoutForm.controls.email.touched && checkoutForm.controls.email.invalid ) {
+              <small>Please enter a valid email address.</small>
+              }
+            </label>
+
+            <label>
+              <span>Phone number</span>
+
+              <input type="tel" formControlName="phone" placeholder="+961" />
+
+              @if ( checkoutForm.controls.phone.touched && checkoutForm.controls.phone.invalid ) {
+              <small>Please enter a valid phone number.</small>
+              }
+            </label>
+          </div>
+        </section>
+
+        <section class="checkout-card">
+          <div class="card-heading">
+            <span>2</span>
+
+            <div>
+              <h2>Delivery address</h2>
+              <p>Enter the address where your order should arrive.</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <label class="full-width">
+              <span>Street address</span>
+
+              <input
+                type="text"
+                formControlName="address"
+                placeholder="Street, building and floor"
+              />
+
+              @if ( checkoutForm.controls.address.touched && checkoutForm.controls.address.invalid )
+              {
+              <small>Please enter your delivery address.</small>
+              }
+            </label>
+
+            <label>
+              <span>City</span>
+
+              <input type="text" formControlName="city" placeholder="Enter your city" />
+
+              @if ( checkoutForm.controls.city.touched && checkoutForm.controls.city.invalid ) {
+              <small>Please enter your city.</small>
+              }
+            </label>
+
+            <label>
+              <span>Country</span>
+
+              <select formControlName="country">
+                <option value="">Select your country</option>
+                <option value="Lebanon">Lebanon</option>
+                <option value="France">France</option>
+                <option value="Greece">Greece</option>
+                <option value="Germany">Germany</option>
+                <option value="Italy">Italy</option>
+                <option value="United States">United States</option>
+              </select>
+
+              @if ( checkoutForm.controls.country.touched && checkoutForm.controls.country.invalid )
+              {
+              <small>Please select your country.</small>
+              }
+            </label>
+
+            <label>
+              <span>Postal code</span>
+
+              <input type="text" formControlName="postalCode" placeholder="Postal code" />
+
+              @if ( checkoutForm.controls.postalCode.touched &&
+              checkoutForm.controls.postalCode.invalid ) {
+              <small>Please enter your postal code.</small>
+              }
+            </label>
+          </div>
+        </section>
+
+        <section class="checkout-card">
+          <div class="card-heading">
+            <span>3</span>
+
+            <div>
+              <h2>Delivery method</h2>
+              <p>Choose how quickly you would like your order.</p>
+            </div>
+          </div>
+
+          <div class="selection-options">
+            <button
+              type="button"
+              [class.active]="deliveryMethod() === 'standard'"
+              (click)="selectDelivery('standard')"
+            >
+              <div>
+                <strong>Standard delivery</strong>
+                <span>3–5 business days</span>
+              </div>
+
+              <b> {{ subtotal() >= 70 ? 'Free' : '$5.00' }} </b>
+            </button>
+
+            <button
+              type="button"
+              [class.active]="deliveryMethod() === 'express'"
+              (click)="selectDelivery('express')"
+            >
+              <div>
+                <strong>Express delivery</strong>
+                <span>1–2 business days</span>
+              </div>
+
+              <b> {{ subtotal() >= 70 ? 'Free' : '$12.00' }} </b>
+            </button>
+          </div>
+        </section>
+
+        <section class="checkout-card">
+          <div class="card-heading">
+            <span>4</span>
+
+            <div>
+              <h2>Payment method</h2>
+              <p>Choose how you would like to pay.</p>
+            </div>
+          </div>
+
+          <div class="payment-options">
+            <button
+              type="button"
+              [class.active]="paymentMethod() === 'card'"
+              (click)="selectPayment('card')"
+            >
+              <span>▣</span>
+
+              <div>
+                <strong>Credit or debit card</strong>
+                <small>Pay securely using your card.</small>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              [class.active]="paymentMethod() === 'cash'"
+              (click)="selectPayment('cash')"
+            >
+              <span>$</span>
+
+              <div>
+                <strong>Cash on delivery</strong>
+                <small>Pay when your order arrives.</small>
+              </div>
+            </button>
+          </div>
+
+          @if (paymentMethod() === 'card') {
+          <div class="card-form">
+            <label class="full-width">
+              <span>Name on card</span>
+
+              <input
+                type="text"
+                formControlName="cardName"
+                placeholder="Name written on the card"
+              />
+
+              @if ( checkoutForm.controls.cardName.touched && checkoutForm.controls.cardName.invalid
+              ) {
+              <small>Please enter the cardholder name.</small>
+              }
+            </label>
+
+            <label class="full-width">
+              <span>Card number</span>
+
+              <input
+                type="text"
+                formControlName="cardNumber"
+                maxlength="16"
+                inputmode="numeric"
+                placeholder="1234123412341234"
+              />
+
+              @if ( checkoutForm.controls.cardNumber.touched &&
+              checkoutForm.controls.cardNumber.invalid ) {
+              <small>Enter a valid 16-digit card number.</small>
+              }
+            </label>
+
+            <label>
+              <span>Expiry date</span>
+
+              <input type="text" formControlName="expiryDate" maxlength="5" placeholder="MM/YY" />
+
+              @if ( checkoutForm.controls.expiryDate.touched &&
+              checkoutForm.controls.expiryDate.invalid ) {
+              <small>Use the MM/YY format.</small>
+              }
+            </label>
+
+            <label>
+              <span>CVV</span>
+
+              <input
+                type="password"
+                formControlName="cvv"
+                maxlength="4"
+                inputmode="numeric"
+                placeholder="123"
+              />
+
+              @if ( checkoutForm.controls.cvv.touched && checkoutForm.controls.cvv.invalid ) {
+              <small>Enter a valid CVV.</small>
+              }
+            </label>
+          </div>
+          }
+        </section>
+      </div>
+
+      <aside class="order-summary">
+        <h2>Order summary</h2>
+
+        <div class="summary-products">
+          @for (item of cartItems(); track item.product.source + '-' + item.product.id) {
+          <article class="summary-product">
+            <div class="summary-image">
+              <img [src]="item.product.image" [alt]="item.product.name" />
+
+              <span>{{ item.quantity }}</span>
+            </div>
+
+            <div>
+              <p>{{ item.product.category }}</p>
+
+              <h3>{{ item.product.name }}</h3>
+
+              <strong> {{ item.product.price * item.quantity | currency: 'USD' }} </strong>
+            </div>
+          </article>
+          }
+        </div>
+
+        <div class="summary-totals">
+          <div>
+            <span>Subtotal</span>
+
+            <strong> {{ subtotal() | currency: 'USD' }} </strong>
+          </div>
+
+          <div>
+            <span>Shipping</span>
+
+            <strong>
+              @if (shippingCost() === 0) { Free } @else { {{ shippingCost() | currency: 'USD' }} }
+            </strong>
+          </div>
+
+          <div class="final-total">
+            <span>Total</span>
+
+            <strong> {{ total() | currency: 'USD' }} </strong>
+          </div>
+        </div>
+
+        @if (submitted() && checkoutForm.invalid) {
+        <p class="form-error">Please complete all required fields correctly.</p>
+        }
+
+        <button class="place-order-button" type="submit">Place order</button>
+
+        <p class="secure-message">🔒 Your checkout information is protected.</p>
+
+        <a routerLink="/cart">Return to cart</a>
+      </aside>
+    </form>
+    } @else {
+    <section class="empty-checkout">
+      <h2>Your cart is empty</h2>
+
+      <p>Add products to your cart before proceeding to checkout.</p>
+
+      <a routerLink="/shop">Browse products</a>
+    </section>
+    } }
+  </main>
+
+  <app-footer></app-footer>
+</div>
