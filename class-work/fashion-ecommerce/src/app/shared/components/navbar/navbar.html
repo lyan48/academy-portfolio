@@ -48,11 +48,11 @@
         ♡
       </a>
 
-      <button class="action-button cart-button" type="button" aria-label="Open shopping cart">
-        &#128722;
-
-        <span class="cart-count"> 0 </span>
-      </button>
+      <a class="action-button cart-button" routerLink="/cart" aria-label="Open shopping cart">
+        &#128722; @if (cartCount() > 0) {
+        <span class="cart-count"> {{ cartCount() }} </span>
+        }
+      </a>
 
       <button class="logout-button" type="button" (click)="logout()">Logout</button>
     </div>

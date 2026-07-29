@@ -4,6 +4,9 @@ import { Router, RouterLink } from '@angular/router';
 import { Footer } from '../../shared/components/footer/footer';
 import { Navbar } from '../../shared/components/navbar/navbar';
 
+import { CartProduct } from '../../core/models/cart-item.model';
+import { CartService } from '../../core/services/cart.service';
+
 interface Category {
   id: number;
   name: string;
@@ -31,6 +34,7 @@ interface HomeProduct {
 })
 export class Home {
   private readonly router = inject(Router);
+  private readonly cartService = inject(CartService);
 
   searchText = '';
   showSaleOnly = false;
@@ -179,7 +183,40 @@ export class Home {
   }
 
   addToCart(product: HomeProduct): void {
-    console.log('Product selected for cart:', product);
+    const source = this.getProductSource(product.category);
+
+    const cartProduct: CartProduct = {
+      id: product.id,
+      name: product.name,
+      category: product.category,
+      price: product.price,
+      image: product.image,
+      source,
+    };
+
+    this.cartService.addToCart(cartProduct);
+  }
+
+  private getProductSource(category: string): CartProduct['source'] {
+    const normalizedCategory = category.toLowerCase();
+
+    if (normalizedCategory === 'women') {
+      return 'women';
+    }
+
+    if (normalizedCategory === 'men') {
+      return 'men';
+    }
+
+    if (normalizedCategory === 'jewelry') {
+      return 'jewelry';
+    }
+
+    if (normalizedCategory === 'electronics') {
+      return 'electronics';
+    }
+
+    return 'home';
   }
 
   logout(): void {

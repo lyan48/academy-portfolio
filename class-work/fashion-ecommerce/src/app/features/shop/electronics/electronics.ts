@@ -4,6 +4,8 @@ import { Product } from '../../../core/models/product.model';
 import { FavoritesService } from '../../../core/services/favorites.service';
 import { Footer } from '../../../shared/components/footer/footer';
 import { Navbar } from '../../../shared/components/navbar/navbar';
+import { CartProduct } from '../../../core/models/cart-item.model';
+import { CartService } from '../../../core/services/cart.service';
 
 type ElectronicsSection = 'featured' | 'new' | 'recommended';
 
@@ -29,6 +31,8 @@ interface ElectronicsProduct {
 })
 export class Electronics {
   private readonly favoritesService = inject(FavoritesService);
+
+  private readonly cartService = inject(CartService);
 
   searchText = '';
   selectedCategory = 'All';
@@ -205,7 +209,16 @@ export class Electronics {
   }
 
   addToCart(product: ElectronicsProduct): void {
-    console.log('Product selected for cart:', product);
+    const cartProduct: CartProduct = {
+      id: product.id,
+      name: product.name,
+      category: product.category,
+      price: product.price,
+      image: product.image,
+      source: 'electronics',
+    };
+
+    this.cartService.addToCart(cartProduct);
   }
 
   private filterProducts(section: ElectronicsSection): ElectronicsProduct[] {

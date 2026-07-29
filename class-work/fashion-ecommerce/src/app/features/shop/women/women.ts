@@ -5,6 +5,8 @@ import { Product } from '../../../core/models/product.model';
 import { FavoritesService } from '../../../core/services/favorites.service';
 import { Footer } from '../../../shared/components/footer/footer';
 import { Navbar } from '../../../shared/components/navbar/navbar';
+import { CartProduct } from '../../../core/models/cart-item.model';
+import { CartService } from '../../../core/services/cart.service';
 
 type WomenSection = 'featured' | 'new' | 'recommended';
 
@@ -30,6 +32,7 @@ interface WomenProduct {
 })
 export class Women {
   private readonly favoritesService = inject(FavoritesService);
+  private readonly cartService = inject(CartService);
 
   searchText = '';
   selectedCategory = 'All';
@@ -204,6 +207,19 @@ export class Women {
       behavior: 'smooth',
       block: 'start',
     });
+  }
+
+  addToCart(product: WomenProduct): void {
+    const cartProduct: CartProduct = {
+      id: product.id,
+      name: product.name,
+      category: product.category,
+      price: product.price,
+      image: product.image,
+      source: 'women',
+    };
+
+    this.cartService.addToCart(cartProduct);
   }
 
   logout(): void {

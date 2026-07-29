@@ -1,32 +1,20 @@
-import {
-  Component,
-  EventEmitter,
-  inject,
-  Output
-} from '@angular/core';
-import {
-  Router,
-  RouterLink,
-  RouterLinkActive
-} from '@angular/router';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 import { AuthService } from '../../../core/services/auth';
 import { GuestSessionService } from '../../../core/services/guest-session';
+import { CartService } from '../../../core/services/cart.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [
-    RouterLink,
-    RouterLinkActive
-  ],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.scss'
+  styleUrl: './navbar.scss',
 })
 export class Navbar {
   private readonly authService = inject(AuthService);
-  private readonly guestSessionService =
-    inject(GuestSessionService);
+  private readonly guestSessionService = inject(GuestSessionService);
   private readonly router = inject(Router);
 
   @Output() searchChanged = new EventEmitter<string>();
@@ -36,6 +24,10 @@ export class Navbar {
 
     this.searchChanged.emit(input.value);
   }
+
+  private readonly cartService = inject(CartService);
+
+  readonly cartCount = this.cartService.totalQuantity;
 
   logout(): void {
     this.authService.logout();

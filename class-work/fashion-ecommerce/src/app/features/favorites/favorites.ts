@@ -6,6 +6,9 @@ import { FavoritesService } from '../../core/services/favorites.service';
 import { Footer } from '../../shared/components/footer/footer';
 import { Navbar } from '../../shared/components/navbar/navbar';
 
+import { CartProduct } from '../../core/models/cart-item.model';
+import { CartService } from '../../core/services/cart.service';
+
 @Component({
   selector: 'app-favorites',
   standalone: true,
@@ -15,6 +18,7 @@ import { Navbar } from '../../shared/components/navbar/navbar';
 })
 export class Favorites {
   private readonly favoritesService = inject(FavoritesService);
+  private readonly cartService = inject(CartService);
 
   readonly favoriteProducts = this.favoritesService.favoriteProducts;
 
@@ -24,5 +28,18 @@ export class Favorites {
 
   clearFavorites(): void {
     this.favoritesService.clearFavorites();
+  }
+
+  addToCart(product: Product): void {
+    const cartProduct: CartProduct = {
+      id: product.id,
+      name: product.name,
+      category: product.category,
+      price: product.price,
+      image: product.image,
+      source: product.source,
+    };
+
+    this.cartService.addToCart(cartProduct);
   }
 }

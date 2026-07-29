@@ -12,6 +12,7 @@ import { Women } from './features/shop/women/women';
 import { Jewelry } from './features/shop/jewelry/jewelry';
 import { Favorites } from './features/favorites/favorites';
 import { Electronics } from './features/shop/electronics/electronics';
+import { Cart } from './features/cart/cart';
 
 export const routes: Routes = [
   {
@@ -58,6 +59,10 @@ export const routes: Routes = [
   {
     path: 'favorites',
     component: Favorites,
+  },
+  {
+    path: 'cart',
+    component: Cart,
   },
   {
     path: 'unauthorized',
