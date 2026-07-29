@@ -11,6 +11,7 @@ import { Shop } from './features/shop/shop';
 import { Women } from './features/shop/women/women';
 import { Jewelry } from './features/shop/jewelry/jewelry';
 import { Favorites } from './features/favorites/favorites';
+import { Electronics } from './features/shop/electronics/electronics';
 
 export const routes: Routes = [
   {
@@ -49,6 +50,10 @@ export const routes: Routes = [
   {
     path: 'shop/jewelry',
     component: Jewelry,
+  },
+  {
+    path: 'shop/electronics',
+    component: Electronics,
   },
   {
     path: 'favorites',

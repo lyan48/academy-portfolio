@@ -62,7 +62,7 @@ export class Home {
       name: 'Electronics',
       subtitle: 'Technology and lifestyle',
       image: '/images/home/electronics.jpg',
-      route: '/shop',
+      route: '/shop/electronics',
     },
   ];
 

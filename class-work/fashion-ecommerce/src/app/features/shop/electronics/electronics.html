@@ -1,0 +1,307 @@
+<div class="electronics-page">
+  <app-navbar (searchChanged)="updateSearch($event)"></app-navbar>
+
+  <main>
+    <section class="electronics-hero">
+      <img src="/images/electronics/hero.jpg" alt="Trendify electronics collection" />
+
+      <div class="hero-overlay"></div>
+
+      <div class="hero-content">
+        <p>ELECTRONICS COLLECTION</p>
+
+        <h1>Technology for everyday life</h1>
+
+        <span>
+          Explore modern devices, useful accessories and technology selected for work, travel and
+          entertainment.
+        </span>
+
+        <button
+          class="hero-scroll-button"
+          type="button"
+          (click)="scrollToSection('featured-products')"
+        >
+          Explore Collection
+        </button>
+      </div>
+    </section>
+
+    <section class="subcategory-section">
+      <div class="subcategory-heading">
+        <p>SHOP ELECTRONICS</p>
+
+        <h2>Explore technology</h2>
+      </div>
+
+      <div class="subcategory-links">
+        <button
+          type="button"
+          [class.active]="selectedCategory === 'All'"
+          (click)="selectCategory('All')"
+        >
+          All
+        </button>
+
+        @for (category of subcategories; track category) {
+        <button
+          type="button"
+          [class.active]="selectedCategory === category"
+          (click)="selectCategory(category)"
+        >
+          {{ category }}
+        </button>
+        }
+      </div>
+
+      <div class="catalog-toolbar">
+        <div class="filter-information">
+          <span class="filter-icon">↕</span>
+
+          <div>
+            <strong>Filter & Sort</strong>
+            <p>Arrange products by price or name</p>
+          </div>
+        </div>
+
+        <label class="sort-control">
+          <span>Sort by</span>
+
+          <select
+            [value]="sortOption"
+            (change)="updateSort($event)"
+            aria-label="Sort electronics products"
+          >
+            <option value="default">Featured</option>
+
+            <option value="price-low-high">Price: Low to High</option>
+
+            <option value="price-high-low">Price: High to Low</option>
+
+            <option value="name-a-z">Name: A to Z</option>
+
+            <option value="name-z-a">Name: Z to A</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <section id="featured-products" class="products-section">
+      <div class="section-heading">
+        <div>
+          <p>FEATURED TECHNOLOGY</p>
+          <h2>Popular essentials</h2>
+        </div>
+
+        <span> Discover selected devices designed for modern life. </span>
+      </div>
+
+      @if (featuredProducts.length > 0) {
+      <div class="products-grid">
+        @for (product of featuredProducts; track product.id) {
+        <article class="product-card">
+          <div class="product-image">
+            <img [src]="product.image" [alt]="product.name" />
+
+            <button
+              class="favorite-button"
+              type="button"
+              [class.active]="product.isFavorite"
+              (click)="toggleFavorite(product)"
+              aria-label="Add electronics product to favorites"
+            >
+              {{ product.isFavorite ? '♥' : '♡' }}
+            </button>
+
+            @if (product.oldPrice) {
+            <span class="sale-label"> Sale </span>
+            }
+          </div>
+
+          <div class="product-information">
+            <p>{{ product.category }}</p>
+
+            <h3>{{ product.name }}</h3>
+
+            <div class="price">
+              <strong>${{ product.price }}</strong>
+
+              @if (product.oldPrice) {
+              <span>${{ product.oldPrice }}</span>
+              }
+            </div>
+
+            <button class="add-cart-button" type="button" (click)="addToCart(product)">
+              Add to cart
+            </button>
+          </div>
+        </article>
+        }
+      </div>
+      } @else {
+      <div class="empty-products">
+        <h3>No products found</h3>
+        <p>Choose another category or search term.</p>
+      </div>
+      }
+    </section>
+
+    <section class="collection-banner">
+      <div>
+        <p>NEW TECHNOLOGY</p>
+
+        <h2>Smarter devices, simpler days</h2>
+
+        <span>
+          Explore the latest devices and accessories selected to improve productivity, entertainment
+          and travel.
+        </span>
+      </div>
+
+      <button class="banner-scroll-button" type="button" (click)="scrollToSection('new-arrivals')">
+        Discover New Arrivals
+      </button>
+    </section>
+
+    <section id="new-arrivals" class="products-section">
+      <div class="section-heading">
+        <div>
+          <p>JUST ARRIVED</p>
+
+          <h2>New arrivals</h2>
+        </div>
+
+        <span> The latest additions to the electronics collection. </span>
+      </div>
+
+      @if (newProducts.length > 0) {
+      <div class="products-grid">
+        @for (product of newProducts; track product.id) {
+        <article class="product-card">
+          <div class="product-image">
+            <img [src]="product.image" [alt]="product.name" />
+
+            <button
+              class="favorite-button"
+              type="button"
+              [class.active]="product.isFavorite"
+              (click)="toggleFavorite(product)"
+              aria-label="Add electronics product to favorites"
+            >
+              {{ product.isFavorite ? '♥' : '♡' }}
+            </button>
+
+            @if (product.oldPrice) {
+            <span class="sale-label"> Sale </span>
+            }
+          </div>
+
+          <div class="product-information">
+            <p>{{ product.category }}</p>
+
+            <h3>{{ product.name }}</h3>
+
+            <div class="price">
+              <strong>${{ product.price }}</strong>
+
+              @if (product.oldPrice) {
+              <span>${{ product.oldPrice }}</span>
+              }
+            </div>
+
+            <button class="add-cart-button" type="button" (click)="addToCart(product)">
+              Add to cart
+            </button>
+          </div>
+        </article>
+        }
+      </div>
+      } @else {
+      <div class="empty-products">
+        <h3>No products found</h3>
+        <p>Choose another category or search term.</p>
+      </div>
+      }
+    </section>
+
+    <section class="editorial-section">
+      <div class="editorial-image">
+        <img src="/images/electronics/editorial.jpg" alt="Modern electronics workspace" />
+      </div>
+
+      <div class="editorial-content">
+        <p>TECHNOLOGY EDIT</p>
+
+        <h2>Designed around your lifestyle</h2>
+
+        <span>
+          From wireless audio to productivity devices, find technology that works wherever your day
+          takes you.
+        </span>
+
+        <button
+          class="editorial-scroll-button"
+          type="button"
+          (click)="scrollToSection('recommended')"
+        >
+          Explore Recommended Items
+        </button>
+      </div>
+    </section>
+
+    <section id="recommended" class="products-section">
+      <div class="section-heading">
+        <div>
+          <p>SELECTED FOR YOU</p>
+
+          <h2>Recommended devices</h2>
+        </div>
+
+        <span> Complete your setup with these selected products. </span>
+      </div>
+
+      @if (recommendedProducts.length > 0) {
+      <div class="products-grid">
+        @for (product of recommendedProducts; track product.id) {
+        <article class="product-card">
+          <div class="product-image">
+            <img [src]="product.image" [alt]="product.name" />
+
+            <button
+              class="favorite-button"
+              type="button"
+              [class.active]="product.isFavorite"
+              (click)="toggleFavorite(product)"
+              aria-label="Add electronics product to favorites"
+            >
+              {{ product.isFavorite ? '♥' : '♡' }}
+            </button>
+          </div>
+
+          <div class="product-information">
+            <p>{{ product.category }}</p>
+
+            <h3>{{ product.name }}</h3>
+
+            <div class="price">
+              <strong>${{ product.price }}</strong>
+            </div>
+
+            <button class="add-cart-button" type="button" (click)="addToCart(product)">
+              Add to cart
+            </button>
+          </div>
+        </article>
+        }
+      </div>
+      } @else {
+      <div class="empty-products">
+        <h3>No products found</h3>
+        <p>Choose another category or search term.</p>
+      </div>
+      }
+    </section>
+  </main>
+
+  <app-footer></app-footer>
+</div>
