@@ -1,0 +1,419 @@
+<div class="admin-page">
+  <aside class="admin-sidebar">
+    <div class="admin-brand">
+      <h1>TRENDIFY</h1>
+      <span>Admin Panel</span>
+    </div>
+
+    <nav class="sidebar-navigation">
+      <button
+        type="button"
+        [class.active]="
+          activeSection() === 'dashboard'
+        "
+        (click)="selectSection('dashboard')"
+      >
+        <span>⌂</span>
+        Dashboard
+      </button>
+
+      <button
+        type="button"
+        [class.active]="
+          activeSection() === 'products'
+        "
+        (click)="selectSection('products')"
+      >
+        <span>▣</span>
+        Products
+      </button>
+
+      <button
+        type="button"
+        [class.active]="
+          activeSection() === 'users'
+        "
+        (click)="selectSection('users')"
+      >
+        <span>♟</span>
+        Users
+      </button>
+
+      <button
+        type="button"
+        [class.active]="
+          activeSection() === 'orders'
+        "
+        (click)="selectSection('orders')"
+      >
+        <span>🛒</span>
+        Orders
+      </button>
+
+      <button
+        type="button"
+        [class.active]="
+          activeSection() === 'activity'
+        "
+        (click)="selectSection('activity')"
+      >
+        <span>◷</span>
+        Recent Activity
+      </button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <button class="back-to-store" type="button" (click)="goBackToStore()">
+        <span>←</span>
+        Back to Store
+      </button>
+
+      <button class="sidebar-logout" type="button" (click)="logout()">
+        <span>↪</span>
+        Logout
+      </button>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <header class="admin-header">
+      <div>
+        <p>ADMINISTRATION</p>
+
+        <h2>
+          @switch (activeSection()) { @case ('dashboard') { Admin Dashboard } @case ('products') {
+          Product Management } @case ('users') { User Management } @case ('orders') { Order
+          Management } @case ('activity') { Recent Activity } }
+        </h2>
+      </div>
+
+      <div class="admin-user">
+        <div>
+          <span>Welcome</span>
+
+          <strong> {{ currentUser()?.firstName || 'Admin' }} </strong>
+        </div>
+
+        <div class="admin-avatar">{{ currentUser() ?.firstName ?.charAt(0) || 'A' }}</div>
+      </div>
+    </header>
+
+    <section class="admin-content">
+      @if (activeSection() === 'dashboard') {
+      <section class="statistics-grid">
+        <article class="stat-card">
+          <div class="stat-icon products-icon">▣</div>
+
+          <p>Total products</p>
+          <strong>{{ totalProducts() }}</strong>
+
+          <button type="button" (click)="selectSection('products')">View all products</button>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-icon users-icon">♟</div>
+
+          <p>Total users</p>
+          <strong>{{ totalUsers() }}</strong>
+
+          <button type="button" (click)="selectSection('users')">View all users</button>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-icon orders-icon">🛍</div>
+
+          <p>Total orders</p>
+          <strong>{{ totalOrders() }}</strong>
+
+          <button type="button" (click)="selectSection('orders')">View all orders</button>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-icon revenue-icon">$</div>
+
+          <p>Revenue</p>
+
+          <strong> {{ totalRevenue() | currency: 'USD' }} </strong>
+
+          <span>Current sales total</span>
+        </article>
+      </section>
+
+      <section class="dashboard-middle">
+        <article class="dashboard-card">
+          <div class="card-title">
+            <h3>Recent Activity</h3>
+
+            <button type="button" (click)="selectSection('activity')">View all</button>
+          </div>
+
+          <div class="activity-list">
+            @for ( activity of activities; track activity.id ) {
+            <div class="activity-item">
+              <div class="activity-icon">{{ activity.icon }}</div>
+
+              <div>
+                <strong> {{ activity.title }} </strong>
+
+                <p>{{ activity.description }}</p>
+              </div>
+
+              <time>{{ activity.time }}</time>
+            </div>
+            }
+          </div>
+        </article>
+
+        <article class="dashboard-card">
+          <div class="card-title">
+            <h3>Recent Orders</h3>
+
+            <button type="button" (click)="selectSection('orders')">View all orders</button>
+          </div>
+
+          @if (recentOrders().length > 0) {
+          <div class="recent-orders-list">
+            @for ( order of recentOrders(); track order.id ) {
+            <article class="recent-order">
+              <div>
+                <strong>{{ order.id }}</strong>
+
+                <span> {{ getOrderCustomerName(order) }} </span>
+              </div>
+
+              <span> {{ getOrderItemCount(order) }} items </span>
+
+              <strong> {{ order.total | currency: 'USD' }} </strong>
+
+              <small> {{ order.status }} </small>
+            </article>
+            }
+          </div>
+          } @else {
+          <div class="empty-state">No orders have been placed yet.</div>
+          }
+        </article>
+      </section>
+
+      <section class="dashboard-card sales-card">
+        <div class="sales-heading">
+          <div>
+            <p>SALES OVERVIEW</p>
+            <h3>Monthly revenue</h3>
+          </div>
+
+          <div class="sales-total">
+            <span>This month</span>
+
+            <strong> {{ totalRevenue() | currency: 'USD' }} </strong>
+
+            <small>Sales performance</small>
+          </div>
+        </div>
+
+        <div class="chart-area">
+          @for ( point of chartData; track point.label ) {
+          <div class="chart-column">
+            <div class="chart-bar-wrapper">
+              <div
+                class="chart-bar"
+                [style.height.%]="
+                      getChartHeight(point.value)
+                    "
+              >
+                <span> {{ point.value | currency : 'USD' : 'symbol' : '1.0-0' }} </span>
+              </div>
+            </div>
+
+            <small>{{ point.label }}</small>
+          </div>
+          }
+        </div>
+      </section>
+      } @if (activeSection() === 'products') {
+      <section class="management-section">
+        <div class="management-heading">
+          <div>
+            <p>CATALOG</p>
+            <h3>Manage products</h3>
+          </div>
+
+          <button class="primary-button" type="button" (click)="addProduct()">+ Add product</button>
+        </div>
+
+        <div class="filters-row">
+          <label class="search-control">
+            <span>⌕</span>
+
+            <input
+              type="search"
+              placeholder="Search products"
+              [value]="searchText()"
+              (input)="updateSearch($event)"
+            />
+          </label>
+
+          <label class="select-control">
+            <span>Category</span>
+
+            <select
+              [value]="
+                  selectedProductCategory()
+                "
+              (change)="
+                  updateProductCategory($event)
+                "
+            >
+              <option value="All">All</option>
+              <option value="Women">Women</option>
+              <option value="Men">Men</option>
+              <option value="Jewelry">Jewelry</option>
+              <option value="Electronics">Electronics</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="grid-information">Double-click a stock cell to edit it.</div>
+
+        <ag-grid-angular
+          class="admin-grid"
+          [theme]="adminGridTheme"
+          [rowData]="filteredProducts()"
+          [columnDefs]="productColumnDefs"
+          [defaultColDef]="defaultColDef"
+          [pagination]="true"
+          [paginationPageSize]="10"
+          [animateRows]="true"
+          [rowHeight]="58"
+          (cellClicked)="
+              onProductCellClicked($event)
+            "
+          (cellValueChanged)="
+              onProductCellValueChanged()
+            "
+        >
+        </ag-grid-angular>
+      </section>
+      } @if (activeSection() === 'users') {
+      <section class="management-section">
+        <div class="management-heading">
+          <div>
+            <p>CUSTOMERS</p>
+            <h3>Registered users</h3>
+          </div>
+        </div>
+
+        <div class="filters-row">
+          <label class="search-control">
+            <span>⌕</span>
+
+            <input
+              type="search"
+              placeholder="Search users"
+              [value]="searchText()"
+              (input)="updateSearch($event)"
+            />
+          </label>
+        </div>
+
+        <ag-grid-angular
+          class="admin-grid"
+          [theme]="adminGridTheme"
+          [rowData]="filteredUsers()"
+          [columnDefs]="userColumnDefs"
+          [defaultColDef]="defaultColDef"
+          [pagination]="true"
+          [paginationPageSize]="10"
+          [animateRows]="true"
+          [rowHeight]="55"
+        >
+        </ag-grid-angular>
+      </section>
+      } @if (activeSection() === 'orders') {
+      <section class="management-section">
+        <div class="management-heading">
+          <div>
+            <p>ORDERS</p>
+            <h3>Manage customer orders</h3>
+          </div>
+        </div>
+
+        <div class="filters-row">
+          <label class="search-control">
+            <span>⌕</span>
+
+            <input
+              type="search"
+              placeholder="Search orders"
+              [value]="searchText()"
+              (input)="updateSearch($event)"
+            />
+          </label>
+
+          <label class="select-control">
+            <span>Status</span>
+
+            <select
+              [value]="selectedOrderStatus()"
+              (change)="
+                  updateOrderFilter($event)
+                "
+            >
+              <option value="All">All</option>
+
+              <option value="Processing">Processing</option>
+
+              <option value="Shipped">Shipped</option>
+
+              <option value="Delivered">Delivered</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="grid-information">Double-click an order status to change it.</div>
+
+        <ag-grid-angular
+          class="admin-grid"
+          [theme]="adminGridTheme"
+          [rowData]="orderRows()"
+          [columnDefs]="orderColumnDefs"
+          [defaultColDef]="defaultColDef"
+          [pagination]="true"
+          [paginationPageSize]="10"
+          [animateRows]="true"
+          [rowHeight]="55"
+          (cellValueChanged)="
+              onOrderCellValueChanged($event)
+            "
+        >
+        </ag-grid-angular>
+      </section>
+      } @if (activeSection() === 'activity') {
+      <section class="management-section">
+        <div class="management-heading">
+          <div>
+            <p>ACTIVITY</p>
+            <h3>Recent admin activity</h3>
+          </div>
+        </div>
+
+        <div class="full-activity-list">
+          @for ( activity of activities; track activity.id ) {
+          <article class="full-activity-item">
+            <div class="activity-icon">{{ activity.icon }}</div>
+
+            <div>
+              <strong> {{ activity.title }} </strong>
+
+              <p>{{ activity.description }}</p>
+            </div>
+
+            <time>{{ activity.time }}</time>
+          </article>
+          }
+        </div>
+      </section>
+      }
+    </section>
+  </main>
+</div>

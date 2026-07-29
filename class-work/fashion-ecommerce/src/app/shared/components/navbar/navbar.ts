@@ -16,6 +16,7 @@ export class Navbar {
   private readonly authService = inject(AuthService);
   private readonly guestSessionService = inject(GuestSessionService);
   private readonly router = inject(Router);
+  readonly currentUser = this.authService.currentUser;
 
   @Output() searchChanged = new EventEmitter<string>();
 

@@ -18,6 +18,8 @@ import { Women } from './features/shop/women/women';
 import { Login } from './features/auth/login/login';
 import { Signup } from './features/auth/signup/signup';
 import { Profile } from './features/profile/profile';
+import { adminGuard } from './core/guards/admin.guard';
+import { Admin } from './features/admin/admin';
 
 export const routes: Routes = [
   {
@@ -96,6 +98,11 @@ export const routes: Routes = [
     path: 'profile',
     component: Profile,
     canActivate: [authGuard],
+  },
+  {
+    path: 'admin',
+    component: Admin,
+    canActivate: [adminGuard],
   },
 
   // This route must always stay last.

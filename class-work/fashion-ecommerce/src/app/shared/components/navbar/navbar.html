@@ -61,6 +61,10 @@
         }
       </a>
 
+      @if (currentUser()?.role === 'admin') {
+      <a class="admin-link" routerLink="/admin" routerLinkActive="active-link"> Admin </a>
+      }
+
       <button class="logout-button" type="button" (click)="logout()">Logout</button>
     </div>
   </nav>
