@@ -1,7 +1,5 @@
 <div class="home-page">
-  <app-navbar
-    (searchChanged)="updateSearch($event)"
-  ></app-navbar>
+  <app-navbar (searchChanged)="updateSearch($event)"></app-navbar>
 
   <main>
     <section class="hero-section">
@@ -14,9 +12,7 @@
       <div class="hero-overlay"></div>
 
       <div class="hero-content">
-        <p class="hero-label">
-          NEW SEASON COLLECTION
-        </p>
+        <p class="hero-label">NEW SEASON COLLECTION</p>
 
         <h1>
           Your style,
@@ -24,24 +20,17 @@
         </h1>
 
         <p class="hero-description">
-          Discover modern fashion, timeless essentials and
-          accessories selected to express your personal style.
+          Discover modern fashion, timeless essentials and accessories selected to express your
+          personal style.
         </p>
 
-        <a
-          class="hero-button"
-          href="#products"
-        >
-          Shop Collection
-        </a>
+        <a class="hero-button" routerLink="/shop"> Shop Collection </a>
       </div>
     </section>
 
     <section class="benefits-section">
       <article class="benefit-card">
-        <span class="benefit-icon">
-          &#128666;
-        </span>
+        <span class="benefit-icon"> &#128666; </span>
 
         <div>
           <h3>Free Shipping</h3>
@@ -50,9 +39,7 @@
       </article>
 
       <article class="benefit-card">
-        <span class="benefit-icon">
-          &#8634;
-        </span>
+        <span class="benefit-icon"> &#8634; </span>
 
         <div>
           <h3>Easy Returns</h3>
@@ -61,9 +48,7 @@
       </article>
 
       <article class="benefit-card">
-        <span class="benefit-icon">
-          &#10003;
-        </span>
+        <span class="benefit-icon"> &#10003; </span>
 
         <div>
           <h3>Secure Payment</h3>
@@ -72,9 +57,7 @@
       </article>
 
       <article class="benefit-card">
-        <span class="benefit-icon">
-          &#9825;
-        </span>
+        <span class="benefit-icon"> &#9825; </span>
 
         <div>
           <h3>Curated Styles</h3>
@@ -83,44 +66,46 @@
       </article>
     </section>
 
-    <section
-      id="categories"
-      class="content-section categories-section"
-    >
+    <section id="categories" class="content-section categories-section">
       <div class="section-heading">
         <div>
-          <p class="section-label">
-            FIND YOUR STYLE
-          </p>
+          <p class="section-label">FIND YOUR STYLE</p>
 
           <h2>Shop by category</h2>
         </div>
 
-        <a href="#products">
-          View all products
-        </a>
+        <a routerLink="/shop"> View all products </a>
       </div>
 
       <div class="categories-grid">
         @for (category of categories; track category.id) {
-          <article class="category-card">
-            <img
-              [src]="category.image"
-              [alt]="category.name + ' category'"
-            />
+        <article
+          class="category-card"
+          tabindex="0"
+          role="link"
+          (click)="openCategory(category.route)"
+          (keydown.enter)="openCategory(category.route)"
+        >
+          <img [src]="category.image" [alt]="category.name + ' category'" />
 
-            <div class="category-overlay"></div>
+          <div class="category-overlay"></div>
 
-            <div class="category-content">
-              <p>{{ category.subtitle }}</p>
+          <div class="category-content">
+            <p>{{ category.subtitle }}</p>
 
-              <h3>{{ category.name }}</h3>
+            <h3>{{ category.name }}</h3>
 
-              <button type="button">
-                Shop now
-              </button>
-            </div>
-          </article>
+            <button
+              type="button"
+              (click)="
+                  $event.stopPropagation();
+                  openCategory(category.route)
+                "
+            >
+              Shop now
+            </button>
+          </div>
+        </article>
         }
       </div>
     </section>
@@ -131,94 +116,83 @@
 
         <h2>End of season sale</h2>
 
-        <span>
-          Save up to 40% on selected styles.
-        </span>
+        <span> Save up to 40% on selected styles. </span>
       </div>
 
-      <a href="#products">
-        Discover Sale
-      </a>
+      <button class="sale-button" type="button" (click)="showSaleProducts()">Discover Sale</button>
     </section>
 
-    <section
-      id="products"
-      class="content-section products-section"
-    >
+    <section id="products" class="content-section products-section">
       <div class="section-heading">
         <div>
-          <p class="section-label">
-            TRENDING NOW
-          </p>
+          <p class="section-label">{{ showSaleOnly ? 'LIMITED-TIME OFFERS' : 'TRENDING NOW' }}</p>
 
-          <h2>Our best sellers</h2>
+          <h2>{{ showSaleOnly ? 'Sale products' : 'Our best sellers' }}</h2>
         </div>
+
+        @if (showSaleOnly) {
+        <button class="view-all-button" type="button" (click)="showAllProducts()">
+          View all products
+        </button>
+        } @else {
+        <a routerLink="/shop"> Explore full shop </a>
+        }
       </div>
 
       @if (filteredProducts.length > 0) {
-        <div class="products-grid">
-          @for (
-            product of filteredProducts;
-            track product.id
-          ) {
-            <article class="product-card">
-              <div class="product-image">
-                <img
-                  [src]="product.image"
-                  [alt]="product.name"
-                />
+      <div class="products-grid">
+        @for ( product of filteredProducts; track product.id ) {
+        <article class="product-card">
+          <div class="product-image">
+            <img [src]="product.image" [alt]="product.name" />
 
-                <button
-                  class="favorite-button"
-                  type="button"
-                  [class.active]="product.isFavorite"
-                  (click)="toggleFavorite(product)"
-                  aria-label="Add product to favorites"
-                >
-                  {{
-                    product.isFavorite
-                      ? '♥'
-                      : '♡'
-                  }}
-                </button>
+            <button
+              class="favorite-button"
+              type="button"
+              [class.active]="product.isFavorite"
+              (click)="toggleFavorite(product)"
+              aria-label="Add product to favorites"
+            >
+              {{ product.isFavorite ? '♥' : '♡' }}
+            </button>
 
-                @if (product.oldPrice) {
-                  <span class="sale-tag">
-                    Sale
-                  </span>
-                }
-              </div>
+            @if (product.oldPrice) {
+            <span class="sale-tag"> Sale </span>
+            }
+          </div>
 
-              <div class="product-information">
-                <p class="product-category">
-                  {{ product.category }}
-                </p>
+          <div class="product-information">
+            <p class="product-category">{{ product.category }}</p>
 
-                <h3>{{ product.name }}</h3>
+            <h3>{{ product.name }}</h3>
 
-                <div class="product-price">
-                  <strong>
-                    ${{ product.price }}
-                  </strong>
+            <div class="product-price">
+              <strong> ${{ product.price }} </strong>
 
-                  @if (product.oldPrice) {
-                    <span>
-                      ${{ product.oldPrice }}
-                    </span>
-                  }
-                </div>
-              </div>
-            </article>
-          }
-        </div>
+              @if (product.oldPrice) {
+              <span> ${{ product.oldPrice }} </span>
+              }
+            </div>
+
+            <button class="add-cart-button" type="button" (click)="addToCart(product)">
+              Add to cart
+            </button>
+          </div>
+        </article>
+        }
+      </div>
       } @else {
-        <div class="empty-search">
-          <h3>No products found</h3>
+      <div class="empty-search">
+        <h3>No products found</h3>
 
-          <p>
-            Try searching for another product or category.
-          </p>
-        </div>
+        <p>No sale products match your current search.</p>
+
+        @if (showSaleOnly) {
+        <button class="view-all-button" type="button" (click)="showAllProducts()">
+          Return to all products
+        </button>
+        }
+      </div>
       }
     </section>
   </main>
