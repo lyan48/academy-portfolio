@@ -1,0 +1,85 @@
+<div class="favorites-page">
+  <app-navbar></app-navbar>
+
+  <main>
+    <section class="favorites-hero">
+      <p>YOUR SAVED ITEMS</p>
+
+      <h1>Favorites</h1>
+
+      <span>
+        Keep the pieces you love in one place and return to them whenever you are ready.
+      </span>
+    </section>
+
+    <section class="favorites-content">
+      <div class="favorites-heading">
+        <div>
+          <p>SAVED COLLECTION</p>
+
+          <h2>
+            {{ favoriteProducts().length }} favorite item{{ favoriteProducts().length === 1 ? '' :
+            's' }}
+          </h2>
+        </div>
+
+        @if (favoriteProducts().length > 0) {
+        <button class="clear-button" type="button" (click)="clearFavorites()">Clear all</button>
+        }
+      </div>
+
+      @if (favoriteProducts().length > 0) {
+      <div class="favorites-grid">
+        @for ( product of favoriteProducts(); track product.source + '-' + product.id ) {
+        <article class="favorite-card">
+          <div class="favorite-image">
+            <img [src]="product.image" [alt]="product.name" />
+
+            <button
+              class="remove-button"
+              type="button"
+              (click)="removeFavorite(product)"
+              aria-label="Remove item from favorites"
+            >
+              ×
+            </button>
+
+            @if (product.oldPrice) {
+            <span class="sale-label"> Sale </span>
+            }
+          </div>
+
+          <div class="favorite-information">
+            <p>{{ product.category }}</p>
+
+            <h3>{{ product.name }}</h3>
+
+            <div class="price">
+              <strong> ${{ product.price }} </strong>
+
+              @if (product.oldPrice) {
+              <span> ${{ product.oldPrice }} </span>
+              }
+            </div>
+
+            <button class="add-cart-button" type="button">Add to cart</button>
+          </div>
+        </article>
+        }
+      </div>
+      } @else {
+      <div class="empty-favorites">
+        <div class="empty-icon">♡</div>
+
+        <h2>Your favorites list is empty</h2>
+
+        <p>Browse the collections and press the heart icon to save the products you love.</p>
+
+        <a routerLink="/shop"> Explore Shop </a>
+      </div>
+      }
+    </section>
+  </main>
+
+  <app-footer></app-footer>
+</div>

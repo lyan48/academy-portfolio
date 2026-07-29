@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
+import { Product } from '../../../core/models/product.model';
+import { FavoritesService } from '../../../core/services/favorites.service';
 import { Footer } from '../../../shared/components/footer/footer';
 import { Navbar } from '../../../shared/components/navbar/navbar';
 
@@ -26,6 +28,8 @@ interface JewelryProduct {
   styleUrl: './jewelry.scss',
 })
 export class Jewelry {
+  private readonly favoritesService = inject(FavoritesService);
+
   searchText = '';
   selectedCategory = 'All';
   sortOption: SortOption = 'default';
@@ -152,6 +156,10 @@ export class Jewelry {
     },
   ];
 
+  constructor() {
+    this.synchronizeFavoriteStates();
+  }
+
   get featuredProducts(): JewelryProduct[] {
     return this.filterProducts('featured');
   }
@@ -179,7 +187,11 @@ export class Jewelry {
   }
 
   toggleFavorite(product: JewelryProduct): void {
-    product.isFavorite = !product.isFavorite;
+    const favoriteProduct = this.createFavoriteProduct(product);
+
+    this.favoritesService.toggleFavorite(favoriteProduct);
+
+    product.isFavorite = this.favoritesService.isFavorite(favoriteProduct);
   }
 
   scrollToSection(sectionId: string): void {
@@ -236,5 +248,24 @@ export class Jewelry {
       default:
         return sortedProducts;
     }
+  }
+
+  private createFavoriteProduct(product: JewelryProduct): Product {
+    return {
+      id: product.id,
+      name: product.name,
+      category: product.category,
+      price: product.price,
+      oldPrice: product.oldPrice,
+      image: product.image,
+      section: product.section,
+      source: 'jewelry',
+    };
+  }
+
+  private synchronizeFavoriteStates(): void {
+    this.products.forEach((product) => {
+      product.isFavorite = this.favoritesService.isFavorite(this.createFavoriteProduct(product));
+    });
   }
 }

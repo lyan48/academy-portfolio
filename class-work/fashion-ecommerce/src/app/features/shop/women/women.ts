@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Navbar } from '../../../shared/components/navbar/navbar';
+import { Product } from '../../../core/models/product.model';
+import { FavoritesService } from '../../../core/services/favorites.service';
 import { Footer } from '../../../shared/components/footer/footer';
+import { Navbar } from '../../../shared/components/navbar/navbar';
 
 type WomenSection = 'featured' | 'new' | 'recommended';
 
@@ -27,6 +29,8 @@ interface WomenProduct {
   styleUrl: './women.scss',
 })
 export class Women {
+  private readonly favoritesService = inject(FavoritesService);
+
   searchText = '';
   selectedCategory = 'All';
   sortOption: SortOption = 'default';
@@ -155,7 +159,9 @@ export class Women {
   ];
 
   // eslint-disable-next-line @angular-eslint/prefer-inject
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    this.synchronizeFavoriteStates();
+  }
 
   get featuredProducts(): WomenProduct[] {
     return this.filterProducts('featured');
@@ -184,7 +190,11 @@ export class Women {
   }
 
   toggleFavorite(product: WomenProduct): void {
-    product.isFavorite = !product.isFavorite;
+    const favoriteProduct = this.createFavoriteProduct(product);
+
+    this.favoritesService.toggleFavorite(favoriteProduct);
+
+    product.isFavorite = this.favoritesService.isFavorite(favoriteProduct);
   }
 
   scrollToSection(sectionId: string): void {
@@ -245,5 +255,24 @@ export class Women {
       default:
         return sortedProducts;
     }
+  }
+
+  private createFavoriteProduct(product: WomenProduct): Product {
+    return {
+      id: product.id,
+      name: product.name,
+      category: product.category,
+      price: product.price,
+      oldPrice: product.oldPrice,
+      image: product.image,
+      section: product.section,
+      source: 'women',
+    };
+  }
+
+  private synchronizeFavoriteStates(): void {
+    this.products.forEach((product) => {
+      product.isFavorite = this.favoritesService.isFavorite(this.createFavoriteProduct(product));
+    });
   }
 }

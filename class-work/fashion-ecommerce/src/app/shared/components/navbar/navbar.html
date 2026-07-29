@@ -3,24 +3,14 @@
     <p>Free delivery on orders over $70</p>
 
     <div class="announcement-links">
-      <button type="button">
-        Help
-      </button>
+      <button type="button">Help</button>
 
-      <button type="button">
-        Track Order
-      </button>
+      <button type="button">Track Order</button>
     </div>
   </div>
 
   <nav class="navbar">
-    <a
-      class="logo"
-      routerLink="/home"
-      aria-label="Trendify home page"
-    >
-      TRENDIFY
-    </a>
+    <a class="logo" routerLink="/home" aria-label="Trendify home page"> TRENDIFY </a>
 
     <div class="nav-links">
       <a
@@ -31,26 +21,14 @@
         Home
       </a>
 
-      <a
-        routerLink="/shop"
-        routerLinkActive="active-link"
-      >
-        Shop
-      </a>
+      <a routerLink="/shop" routerLinkActive="active-link"> Shop </a>
 
-      <a
-        routerLink="/contact"
-        routerLinkActive="active-link"
-      >
-        Contact Us
-      </a>
+      <a routerLink="/contact" routerLinkActive="active-link"> Contact Us </a>
     </div>
 
     <div class="navbar-actions">
       <label class="search-box">
-        <span class="search-symbol">
-          &#128269;
-        </span>
+        <span class="search-symbol"> &#128269; </span>
 
         <input
           type="search"
@@ -60,33 +38,23 @@
         />
       </label>
 
-      <button
-        class="action-button"
-        type="button"
-        aria-label="Open profile"
-      >
-        &#128100;
-      </button>
+      <button class="action-button" type="button" aria-label="Open profile">&#128100;</button>
 
-      <button
-        class="action-button cart-button"
-        type="button"
-        aria-label="Open shopping cart"
+      <a
+        class="action-button favorite-nav-button"
+        routerLink="/favorites"
+        aria-label="Open favorites"
       >
+        ♡
+      </a>
+
+      <button class="action-button cart-button" type="button" aria-label="Open shopping cart">
         &#128722;
 
-        <span class="cart-count">
-          0
-        </span>
+        <span class="cart-count"> 0 </span>
       </button>
 
-      <button
-        class="logout-button"
-        type="button"
-        (click)="logout()"
-      >
-        Logout
-      </button>
+      <button class="logout-button" type="button" (click)="logout()">Logout</button>
     </div>
   </nav>
 </header>
