@@ -1,0 +1,118 @@
+<app-navbar (searchChanged)="updateSearch($event)"></app-navbar>
+
+<main class="search-page">
+  <section class="search-hero">
+    <p class="section-label">TRENDIFY SEARCH</p>
+
+    @if (searchText()) {
+    <h1>Results for “{{ searchText() }}”</h1>
+
+    <p>
+      {{ searchResults().length }} {{ searchResults().length === 1 ? 'product' : 'products' }}
+      found.
+    </p>
+    } @else {
+    <h1>Search Our Collection</h1>
+
+    <p>Search products from Women, Men, Jewelry, and Electronics.</p>
+    }
+  </section>
+
+  <section class="search-content">
+    <div class="search-toolbar">
+      <div class="results-information">
+        <strong>{{ searchResults().length }}</strong>
+        <span>Results</span>
+      </div>
+
+      <div class="toolbar-controls">
+        <label>
+          <span>Collection</span>
+
+          <select [value]="selectedSource()" (change)="updateSource($event)">
+            <option value="all">All collections</option>
+            <option value="women">Women</option>
+            <option value="men">Men</option>
+            <option value="jewelry">Jewelry</option>
+            <option value="electronics">Electronics</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Sort by</span>
+
+          <select [value]="sortOption()" (change)="updateSort($event)">
+            <option value="default">Recommended</option>
+            <option value="price-low-high">Price: Low to High</option>
+            <option value="price-high-low">Price: High to Low</option>
+            <option value="name-a-z">Name: A to Z</option>
+            <option value="name-z-a">Name: Z to A</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    @if (searchResults().length > 0) {
+    <div class="products-grid">
+      @for (product of searchResults(); track product.source + '-' + product.id) {
+      <article
+        class="product-card"
+        tabindex="0"
+        role="button"
+        (click)="openProduct(product)"
+        (keydown.enter)="openProduct(product)"
+      >
+        <div class="product-image-wrapper">
+          <img [src]="product.image" [alt]="product.name" />
+
+          <button
+            class="favorite-button"
+            type="button"
+            [class.favorite-active]="isFavorite(product)"
+            [attr.aria-label]="'Add ' + product.name + ' to favorites'"
+            (click)="toggleFavorite(product, $event)"
+          >
+            {{ isFavorite(product) ? '♥' : '♡' }}
+          </button>
+
+          <span class="product-source"> {{ product.source }} </span>
+        </div>
+
+        <div class="product-information">
+          <p>{{ product.category }}</p>
+
+          <h2>{{ product.name }}</h2>
+
+          <div class="price-row">
+            <strong>{{ product.price | currency: 'USD' }}</strong>
+
+            @if (product.oldPrice) {
+            <span>{{ product.oldPrice | currency: 'USD' }}</span>
+            }
+          </div>
+
+          <button class="cart-button" type="button" (click)="addToCart(product, $event)">
+            Add to Cart
+          </button>
+        </div>
+      </article>
+      }
+    </div>
+    } @else {
+    <div class="empty-results">
+      <div class="empty-icon">⌕</div>
+
+      <h2>No products found</h2>
+
+      <p>
+        We could not find a product matching “{{ searchText() }}”. Try another product name or
+        category.
+      </p>
+
+      <button type="button" (click)="clearSearch()">View All Products</button>
+    </div>
+    }
+  </section>
+</main>
+
+<app-footer></app-footer>

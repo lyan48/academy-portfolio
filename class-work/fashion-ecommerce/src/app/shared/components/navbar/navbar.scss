@@ -133,11 +133,18 @@
   }
 }
 
-.search-symbol {
+.search-submit {
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
   color: #6f5747;
 
   font-size: 18px;
   font-weight: 700;
+
+  cursor: pointer;
 }
 
 .action-button {

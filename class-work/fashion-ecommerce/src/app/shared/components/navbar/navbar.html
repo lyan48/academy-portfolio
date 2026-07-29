@@ -15,16 +15,17 @@
     </div>
 
     <div class="navbar-actions">
-      <label class="search-box">
-        <span class="search-symbol">⌕</span>
+      <form class="search-box" (submit)="submitSearch()">
+        <button class="search-submit" type="submit" aria-label="Search all products">⌕</button>
 
         <input
           type="search"
           placeholder="Search products"
           aria-label="Search products"
+          [value]="searchValue"
           (input)="searchProducts($event)"
         />
-      </label>
+      </form>
 
       <a
         class="action-button"

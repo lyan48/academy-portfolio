@@ -20,6 +20,7 @@ import { Signup } from './features/auth/signup/signup';
 import { Profile } from './features/profile/profile';
 import { adminGuard } from './core/guards/admin.guard';
 import { Admin } from './features/admin/admin';
+import { Search } from './features/search/search';
 
 export const routes: Routes = [
   {
@@ -104,8 +105,12 @@ export const routes: Routes = [
     component: Admin,
     canActivate: [adminGuard],
   },
+  {
+    path: 'search',
+    component: Search,
+    canActivate: [browseGuard],
+  },
 
-  // This route must always stay last.
   {
     path: '**',
     component: NotFound,

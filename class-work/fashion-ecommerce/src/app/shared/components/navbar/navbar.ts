@@ -21,12 +21,27 @@ export class Navbar {
   readonly currentUser = this.authService.currentUser;
   readonly cartCount = this.cartService.totalQuantity;
 
+  searchValue = '';
+
   @Output() searchChanged = new EventEmitter<string>();
 
   searchProducts(event: Event): void {
     const input = event.target as HTMLInputElement;
 
+    this.searchValue = input.value;
     this.searchChanged.emit(input.value);
+  }
+
+  submitSearch(): void {
+    const normalizedSearch = this.searchValue.trim();
+
+    this.router.navigate(['/search'], {
+      queryParams: normalizedSearch
+        ? {
+            q: normalizedSearch,
+          }
+        : {},
+    });
   }
 
   logout(): void {

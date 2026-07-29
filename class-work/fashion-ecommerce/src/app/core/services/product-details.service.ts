@@ -423,6 +423,26 @@ export class ProductDetailsService {
     return this.products.find((product) => product.source === source && product.id === id);
   }
 
+  getAllProducts(): DetailedProduct[] {
+    return [...this.products];
+  }
+
+  searchProducts(searchText: string): DetailedProduct[] {
+    const normalizedSearch = searchText.trim().toLowerCase();
+
+    if (!normalizedSearch) {
+      return this.getAllProducts();
+    }
+
+    return this.products.filter((product) => {
+      return (
+        product.name.toLowerCase().includes(normalizedSearch) ||
+        product.category.toLowerCase().includes(normalizedSearch) ||
+        product.source.toLowerCase().includes(normalizedSearch)
+      );
+    });
+  }
+
   getRelatedProducts(product: DetailedProduct): DetailedProduct[] {
     return this.products.filter(
       (candidate) =>
